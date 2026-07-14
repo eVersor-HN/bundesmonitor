@@ -6,6 +6,10 @@ Bundesmonitor macht in Sekunden sichtbar, *was die Regierung tut, wofür Geld au
 
 > Zielbild: **Was ist neu? Wer ist verantwortlich? Welchen Status hat es? Geht es um Geld? Was passiert als Nächstes? Wo ist die Originalquelle?** – beantwortet auf einen Blick.
 
+> 💸 Du durchleuchtest hier auf den Cent genau, wohin der Bund dein Steuergeld schaufelt – ausgerechnet die paar Euro für das Werkzeug, das dir das zeigt, bleiben bei einer stolzen, kerzengeraden Null.
+> **PayPal:** [paypal.me/FAMarco](https://paypal.me/FAMarco)
+> **Bitcoin:** `bc1qv92c3eyeqvhgfnez7spfd7v2aytkhpshsl65yv`
+
 ---
 
 ## Warum Bundesmonitor?
@@ -18,12 +22,27 @@ Der Sinn dahinter: **Transparenz senkt die Hürde zur Mitbestimmung.** Ein einfa
 
 ---
 
-## Projekt unterstützen
+## Download & Installation
 
-Bundesmonitor ist kostenlos, werbefrei und unabhängig. Wer das Projekt am Leben halten möchte:
+Neueste APK: **[Releases](https://github.com/eVersor-HN/bundesmonitor/releases/latest)**. Die `.apk` laden, auf dem Android-Gerät öffnen und installieren (ggf. „Installation aus unbekannten Quellen" für Browser/Dateimanager erlauben). Mindest-Android-Version **7.0**.
 
-- **PayPal:** [paypal.me/FAMarco](https://paypal.me/FAMarco)
-- **Bitcoin:** `bc1qv92c3eyeqvhgfnez7spfd7v2aytkhpshsl65yv`
+### Aktualisieren
+
+Eine neuere Version einfach über die installierte drüberinstallieren – Update in-place, Einstellungen und dein DIP-Schlüssel bleiben erhalten (gleiche Signatur vorausgesetzt).
+
+## ✅ Echtheit prüfen (SHA-256)
+
+Vor der Installation den Fingerabdruck der geladenen Datei prüfen. Für **v0.4.0** (`bundesmonitor-0.4.0.apk`):
+
+```
+7ffefc2a8ea22ebae59dc91abfcf9d19c54c04d9a4adba2e4971bca0a463cb8c
+```
+
+```powershell
+Get-FileHash .\bundesmonitor-0.4.0.apk -Algorithm SHA256
+```
+
+Der ausgegebene Hash muss (Groß-/Kleinschreibung egal) exakt übereinstimmen. Tut er das **nicht**, die Datei nicht installieren – es ist kein echter Build. Maßgeblich sind die **Release-Notes** und [`SHA256SUMS.txt`](SHA256SUMS.txt).
 
 ---
 
