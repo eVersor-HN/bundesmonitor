@@ -1,0 +1,54 @@
+# Secrets / local env
+.env
+.env.local
+*.local
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+.coverage
+htmlcov/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+npm-debug.log*
+.turbo/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Data / storage (never commit raw archives or dumps)
+/data/
+*.dump
+*.sqlite
+*.db
+
+# Build artifacts
+coverage/
+
+# Next.js static export (Capacitor-Webverzeichnis)
+apps/web/out/
+
+# Capacitor / Android (generiert von `cap add android`)
+/android/
+
+
+# Gebaute APKs nicht ins Repo (kommen als GitHub-Release)
+*.apk
+
+# Lokale Gist-Quelle fuer den oeffentlichen DIP-Schluessel (nicht ins Repo)
+bundesmonitor-dip-key.json

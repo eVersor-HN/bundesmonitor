@@ -1,0 +1,1311 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bundesmonitor · 10 App-Designs</title>
+    <style>
+      /* ============================================================
+         Bundesmonitor — 10 Design-Richtungen fuer die KOMPLETTE App.
+         Jede Variation ist ein in sich geschlossenes System: Schrift,
+         Farben, Radien, Grafik. Pro Variation zwei Screens (Dashboard
+         mit verschieden grossen Kacheln + ein Signatur-Screen).
+         Keine Farbverlaeufe, nur flaechige Fuellungen. Demo-Inhalte.
+         ============================================================ */
+      :root {
+        --page: #0b0f16;
+        --page2: #11161f;
+        --ink: #e8edf4;
+        --ink-dim: #9aa7b6;
+        --line: #24303f;
+        --brand: #2de2c8;
+        --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+        --cond: "Arial Narrow", "Helvetica Neue Condensed", "Roboto Condensed", sans-serif;
+        --mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font-family: var(--sans);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      .page-wrap { max-width: 1240px; margin: 0 auto; padding: 40px 22px 100px; }
+
+      /* ---- Kopf ---- */
+      .masthead { border-bottom: 1px solid var(--line); padding-bottom: 26px; margin-bottom: 30px; }
+      .kicker {
+        font-family: var(--mono); letter-spacing: 0.22em; text-transform: uppercase;
+        font-size: 0.72rem; color: var(--brand); font-weight: 700;
+      }
+      .masthead h1 { font-size: clamp(1.8rem, 4.4vw, 2.9rem); margin: 10px 0 8px; letter-spacing: -0.025em; line-height: 1.05; }
+      .masthead p { color: var(--ink-dim); max-width: 760px; margin: 0; font-size: 1.02rem; }
+      .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+      .toc a {
+        text-decoration: none; font-size: 0.78rem; color: var(--ink-dim);
+        border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px;
+        transition: border-color .18s, color .18s;
+      }
+      .toc a:hover { color: var(--ink); border-color: var(--brand); }
+
+      /* ---- Variation-Rahmen ---- */
+      .variation { padding: 46px 0; border-top: 1px dashed var(--line); }
+      .variation:first-of-type { border-top: none; }
+      .v-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 20px; margin-bottom: 26px; }
+      .v-num {
+        font-family: var(--mono); font-size: 2.6rem; font-weight: 700; line-height: 1;
+        color: var(--brand); opacity: .9; min-width: 78px;
+      }
+      .v-title { flex: 1 1 260px; }
+      .v-title h2 { margin: 0 0 4px; font-size: 1.5rem; letter-spacing: -0.01em; }
+      .v-title p { margin: 0; color: var(--ink-dim); font-size: 0.92rem; max-width: 640px; }
+      .v-meta { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+      .swatches { display: flex; gap: 6px; }
+      .swatch { width: 22px; height: 22px; border-radius: 6px; border: 1px solid rgba(255,255,255,.14); }
+      .fonttag { font-size: 0.72rem; color: var(--ink-dim); font-family: var(--mono); }
+
+      /* ---- Phone-Buehne ---- */
+      .stage {
+        display: flex; gap: 30px; flex-wrap: wrap; align-items: flex-start;
+        padding: 30px; border-radius: 26px; border: 1px solid var(--line);
+        background: var(--page2);
+      }
+      .phone-col { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+      .screen-label { font-size: 0.74rem; color: var(--ink-dim); font-family: var(--mono); letter-spacing: .04em; }
+      .phone {
+        width: 300px; height: 638px; border-radius: 42px; padding: 11px;
+        background: #05070b; border: 1px solid #1c2634;
+        box-shadow: 0 30px 60px -30px rgba(0,0,0,.9), 0 0 0 2px rgba(255,255,255,.02) inset;
+        flex: none;
+      }
+      .glass {
+        width: 100%; height: 100%; border-radius: 32px; overflow: hidden; position: relative;
+        display: flex; flex-direction: column;
+      }
+      .glass::-webkit-scrollbar { display: none; }
+      .notch {
+        position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
+        width: 92px; height: 20px; border-radius: 12px; background: #05070b; z-index: 40;
+      }
+
+      /* Innenaufbau eines App-Screens (wird pro Variation via .vN umgefaerbt) */
+      .app { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+      .statusbar {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 12px 18px 6px; font-size: 0.7rem; font-family: var(--mono); opacity: .8;
+      }
+      .appbar {
+        display: flex; align-items: center; gap: 8px; padding: 6px 16px 12px;
+      }
+      .appbar .logo { display: flex; align-items: center; gap: 7px; font-weight: 700; letter-spacing: .12em; font-size: .82rem; }
+      .appbar .gear { margin-left: auto; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; }
+      .body { flex: 1; overflow: hidden; padding: 4px 14px 12px; }
+      .tabbar {
+        display: flex; justify-content: space-around; align-items: center;
+        padding: 9px 6px 12px; font-size: 0.6rem; gap: 2px;
+      }
+      .tab { display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: .55; }
+      .tab.on { opacity: 1; }
+      .tab .dot { width: 20px; height: 20px; border-radius: 7px; display: grid; place-items: center; }
+      .tab svg { width: 17px; height: 17px; }
+
+      /* Dashboard-Raster: verschieden grosse Kacheln */
+      .dash { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+      .tile { border-radius: 14px; padding: 12px; overflow: hidden; position: relative; }
+      .t-2x2 { grid-column: span 2; }
+      .t-wide { grid-column: span 2; }
+      .tile .lab { font-size: 0.62rem; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+      .tile .big { font-family: var(--mono); font-weight: 700; letter-spacing: -.02em; }
+      .rowmini { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-top: 1px solid rgba(255,255,255,.07); }
+      .rowmini:first-of-type { border-top: none; }
+      .pill { font-size: 0.58rem; padding: 2px 7px; border-radius: 999px; font-weight: 700; letter-spacing: .04em; }
+      .bars { display: flex; align-items: flex-end; gap: 5px; height: 46px; margin-top: 8px; }
+      .bar { flex: 1; border-radius: 4px 4px 0 0; }
+      .seatrow { display: flex; height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
+      .map { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 6px; }
+      .land { aspect-ratio: 1; border-radius: 6px; display: grid; place-items: center; font-size: .5rem; font-weight: 700; }
+
+      /* Vorgangsreise / Timeline */
+      .journey { position: relative; padding-left: 20px; }
+      .journey::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: currentColor; opacity: .25; }
+      .step { position: relative; padding: 0 0 15px; }
+      .step::before { content: ""; position: absolute; left: -17px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
+      .step .st-t { font-size: .74rem; font-weight: 600; }
+      .step .st-d { font-size: .64rem; opacity: .6; font-family: var(--mono); }
+
+      .caption { margin-top: 16px; font-size: 0.82rem; color: var(--ink-dim); max-width: 620px; }
+      .caption b { color: var(--ink); font-weight: 600; }
+
+      @media (max-width: 720px) {
+        .phone { width: 270px; height: 574px; }
+        .stage { padding: 18px; gap: 20px; justify-content: center; }
+      }
+
+      /* =========================================================
+         DESIGN-SYSTEME PRO VARIATION
+         Jede .vN definiert Hintergrund, Flaechen, Schrift, Akzent.
+         ========================================================= */
+
+      /* 1 — SIGNAL : dunkles Slate, elektrisches Blau, Fintech, grosse Zahlen */
+      .v1 .app { background: #0d1320; color: #eaf0f8; font-family: var(--sans); }
+      .v1 .appbar .logo b, .v1 .accent { color: #3b82f6; }
+      .v1 .gear { background: #172236; }
+      .v1 .tile { background: #141d2e; border: 1px solid #1f2c42; }
+      .v1 .tile.hero { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+      .v1 .tile.hero .lab { opacity: .85; }
+      .v1 .big { color: #eaf0f8; }
+      .v1 .tile.hero .big { color: #fff; }
+      .v1 .pill { background: #1f2c42; color: #8ab4ff; }
+      .v1 .pill.g { background: #10331f; color: #4ade80; }
+      .v1 .tab.on .dot { background: #3b82f6; color: #fff; }
+      .v1 .tab.on { color: #6ba4ff; }
+      .v1 .tabbar { border-top: 1px solid #1f2c42; }
+
+      /* 2 — PAPIER : warmes Papier, Tinte, Rot, Serifen, Zeitung */
+      .v2 .app { background: #f4efe4; color: #211d18; font-family: var(--serif); }
+      .v2 .appbar .logo { font-family: var(--cond); letter-spacing: .04em; }
+      .v2 .appbar .logo b, .v2 .accent { color: #b3271b; }
+      .v2 .gear { background: #e7dfcf; }
+      .v2 .tile { background: #fbf8f1; border: 1px solid #ddd2bd; }
+      .v2 .tile.hero { background: #211d18; color: #f4efe4; border-color: #211d18; }
+      .v2 .tile .lab { font-family: var(--cond); letter-spacing: .1em; }
+      .v2 .big { font-family: var(--serif); color: #211d18; }
+      .v2 .tile.hero .big { color: #f4efe4; }
+      .v2 .pill { background: #efe7d6; color: #b3271b; font-family: var(--cond); }
+      .v2 .pill.g { background: #e2ecdd; color: #2f6b3a; }
+      .v2 .tab { font-family: var(--cond); }
+      .v2 .tab.on { color: #b3271b; }
+      .v2 .tab.on .dot { background: #b3271b; color: #fff; }
+      .v2 .tabbar { border-top: 2px solid #211d18; }
+      .v2 .statusbar { font-family: var(--cond); }
+
+      /* 3 — AURORA : tiefes Marineblau, Teal, ruhige Glasflaechen (verfeinerte App) */
+      .v3 .app { background: #081019; color: #e2edf4; font-family: var(--sans); }
+      .v3 .appbar .logo { font-family: var(--mono); }
+      .v3 .appbar .logo b, .v3 .accent { color: #2de2c8; }
+      .v3 .gear { background: #10202a; }
+      .v3 .tile { background: #0e1b26; border: 1px solid #17303a; }
+      .v3 .tile.hero { background: #0e2a2a; border-color: #1c4a45; }
+      .v3 .big { font-family: var(--mono); color: #2de2c8; }
+      .v3 .tile .lab { color: #7fa6ac; }
+      .v3 .pill { background: #10333094; color: #2de2c8; }
+      .v3 .pill.g { background: #10333094; color: #5fe6a8; }
+      .v3 .tab.on { color: #2de2c8; }
+      .v3 .tab.on .dot { background: #12332f; color: #2de2c8; }
+      .v3 .tabbar { border-top: 1px solid #17303a; }
+
+      /* 4 — NEON : nahezu schwarz, Limette + Magenta, Poster, fette Grotesk */
+      .v4 .app { background: #0a0a0c; color: #f4f4f0; font-family: var(--sans); }
+      .v4 .appbar .logo { font-weight: 800; letter-spacing: -.01em; }
+      .v4 .appbar .logo b, .v4 .accent { color: #c6ff3a; }
+      .v4 .gear { background: #17171a; }
+      .v4 .tile { background: #141417; border: 1px solid #26262b; }
+      .v4 .tile.hero { background: #c6ff3a; color: #0a0a0c; border-color: #c6ff3a; }
+      .v4 .tile.pop { background: #ff2e93; color: #fff; border-color: #ff2e93; }
+      .v4 .big { font-weight: 800; letter-spacing: -.03em; color: #f4f4f0; }
+      .v4 .tile.hero .big, .v4 .tile.hero .lab { color: #0a0a0c; }
+      .v4 .tile.pop .big, .v4 .tile.pop .lab { color: #fff; }
+      .v4 .pill { background: #26262b; color: #c6ff3a; }
+      .v4 .pill.g { background: #26262b; color: #64f0c0; }
+      .v4 .tab.on { color: #c6ff3a; }
+      .v4 .tab.on .dot { background: #c6ff3a; color: #0a0a0c; }
+      .v4 .tabbar { border-top: 1px solid #26262b; }
+
+      /* 5 — BUERGERGRUEN : helles Off-White, Waldgruen + Sand, rund, freundlich */
+      .v5 .app { background: #f3f6f1; color: #1d2a22; font-family: var(--sans); }
+      .v5 .appbar .logo b, .v5 .accent { color: #1f7a54; }
+      .v5 .gear { background: #e4ece3; }
+      .v5 .tile { background: #ffffff; border: 1px solid #dbe6d9; border-radius: 20px; }
+      .v5 .tile.hero { background: #1f7a54; color: #fff; border-color: #1f7a54; }
+      .v5 .tile.sand { background: #f0e6cf; border-color: #e2d3ad; }
+      .v5 .big { color: #1d2a22; }
+      .v5 .tile.hero .big { color: #fff; }
+      .v5 .pill { background: #e4f0e6; color: #1f7a54; }
+      .v5 .pill.g { background: #e4f0e6; color: #1f7a54; }
+      .v5 .tab.on { color: #1f7a54; }
+      .v5 .tab.on .dot { background: #1f7a54; color: #fff; border-radius: 999px; }
+      .v5 .tabbar { border-top: 1px solid #dbe6d9; }
+      .v5 .tile { border-radius: 20px; }
+
+      /* 6 — TERMINAL : schwarz, Phosphor-Gruen, Monospace, brutalistisch */
+      .v6 .app { background: #020402; color: #b7f7c9; font-family: var(--mono); }
+      .v6 .appbar .logo b, .v6 .accent { color: #33ff88; }
+      .v6 .gear { background: #0a1a0f; border: 1px solid #143a20; }
+      .v6 .tile { background: #030803; border: 1px solid #14401f; border-radius: 4px; }
+      .v6 .tile.hero { background: #041505; border-color: #1f7a34; }
+      .v6 .big { color: #33ff88; }
+      .v6 .tile .lab { color: #4fae6a; }
+      .v6 .pill { background: #0a2411; color: #33ff88; border-radius: 3px; }
+      .v6 .pill.g { background: #0a2411; color: #7fffb0; border-radius: 3px; }
+      .v6 .tab.on { color: #33ff88; }
+      .v6 .tab.on .dot { background: #0a2411; color: #33ff88; border-radius: 3px; }
+      .v6 .tabbar { border-top: 1px solid #14401f; }
+
+      /* 7 — PASTELL : helle Lavendel/Mint/Pfirsich-Kacheln, verspielt */
+      .v7 .app { background: #faf7ff; color: #2d2740; font-family: var(--sans); }
+      .v7 .appbar .logo b, .v7 .accent { color: #7c5cff; }
+      .v7 .gear { background: #efe9ff; }
+      .v7 .tile { background: #ffffff; border: 1px solid #ece6fb; border-radius: 18px; }
+      .v7 .tile.hero { background: #ded4ff; color: #2d2740; border-color: #cbb9ff; }
+      .v7 .tile.mint { background: #d2f5e8; border-color: #b3ecd7; }
+      .v7 .tile.peach { background: #ffe4d6; border-color: #ffd0ba; }
+      .v7 .big { color: #2d2740; }
+      .v7 .pill { background: #efe9ff; color: #7c5cff; }
+      .v7 .pill.g { background: #d2f5e8; color: #1f9d76; }
+      .v7 .tab.on { color: #7c5cff; }
+      .v7 .tab.on .dot { background: #7c5cff; color: #fff; border-radius: 999px; }
+      .v7 .tabbar { border-top: 1px solid #ece6fb; }
+
+      /* 8 — KLARTEXT : Weiss, Hochkontrast, Blau, A11y, grosse Typo, dicke Fokus */
+      .v8 .app { background: #ffffff; color: #111111; font-family: var(--sans); }
+      .v8 .appbar .logo b, .v8 .accent { color: #0043ce; }
+      .v8 .gear { background: #eef1f6; border: 2px solid #111; }
+      .v8 .tile { background: #ffffff; border: 2px solid #111111; border-radius: 10px; }
+      .v8 .tile.hero { background: #0043ce; color: #fff; border-color: #0043ce; }
+      .v8 .big { color: #111; font-weight: 800; }
+      .v8 .tile.hero .big { color: #fff; }
+      .v8 .tile .lab { font-weight: 700; opacity: 1; color: #444; }
+      .v8 .tile.hero .lab { color: #dbe6ff; }
+      .v8 .pill { background: #111; color: #fff; }
+      .v8 .pill.g { background: #005d2e; color: #fff; }
+      .v8 .tab.on { color: #0043ce; }
+      .v8 .tab.on .dot { background: #0043ce; color: #fff; }
+      .v8 .tabbar { border-top: 2px solid #111; }
+      .v8 .tab { font-weight: 700; opacity: .7; }
+
+      /* 9 — REDAKTION : helles Magazin, Indigo-Duoton, kondensierte Headlines */
+      .v9 .app { background: #f7f7f5; color: #16161a; font-family: var(--serif); }
+      .v9 .appbar .logo { font-family: var(--cond); letter-spacing: .02em; text-transform: uppercase; }
+      .v9 .appbar .logo b, .v9 .accent { color: #3a2eea; }
+      .v9 .gear { background: #ececf4; }
+      .v9 .tile { background: #ffffff; border: 1px solid #e3e3ea; }
+      .v9 .tile.hero { background: #16161a; color: #f7f7f5; border-color: #16161a; }
+      .v9 .tile .lab { font-family: var(--cond); text-transform: uppercase; letter-spacing: .12em; }
+      .v9 .big { font-family: var(--cond); font-weight: 700; letter-spacing: -.01em; color: #16161a; }
+      .v9 .tile.hero .big { color: #f7f7f5; }
+      .v9 .pill { background: #eae8ff; color: #3a2eea; font-family: var(--cond); text-transform: uppercase; }
+      .v9 .pill.g { background: #e2f0e6; color: #1f6b3a; font-family: var(--cond); }
+      .v9 .tab { font-family: var(--cond); text-transform: uppercase; letter-spacing: .06em; }
+      .v9 .tab.on { color: #3a2eea; }
+      .v9 .tab.on .dot { background: #3a2eea; color: #fff; }
+      .v9 .tabbar { border-top: 1px solid #16161a; }
+
+      /* 10 — NACHTBLAU : tiefes Blau + Bernstein, ruhig, „ruhiger Feed" */
+      .v10 .app { background: #0c1424; color: #dfe7f5; font-family: var(--sans); }
+      .v10 .appbar .logo b, .v10 .accent { color: #ffb84d; }
+      .v10 .gear { background: #142138; }
+      .v10 .tile { background: #111d33; border: 1px solid #1e2f4d; }
+      .v10 .tile.hero { background: #16233d; border-color: #33507f; }
+      .v10 .big { font-family: var(--mono); color: #ffb84d; }
+      .v10 .tile .lab { color: #8fa2c4; }
+      .v10 .pill { background: #3a2c12; color: #ffb84d; }
+      .v10 .pill.g { background: #123322; color: #57d99a; }
+      .v10 .tab.on { color: #ffb84d; }
+      .v10 .tab.on .dot { background: #26313f; color: #ffb84d; }
+      .v10 .tabbar { border-top: 1px solid #1e2f4d; }
+
+      .foot { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--ink-dim); font-size: .84rem; }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrap">
+      <header class="masthead">
+        <div class="kicker">Bundesmonitor · Design-Studie</div>
+        <h1>10 Gestaltungs&shy;richtungen für die komplette App</h1>
+        <p>
+          Jede Variation ist ein vollständiges, in sich einheitliches Designsystem —
+          Schrift, Farben, Formen und Grafik greifen ineinander. Gezeigt wird jeweils
+          das <b style="color:var(--ink)">Dashboard mit verschieden großen Kacheln</b>
+          (alles Wichtige auf einen Blick) plus ein zweiter Signatur-Screen. Neutral,
+          quellenlogik-tauglich, ohne Farbverläufe. Inhalte sind Demo-Beispiele.
+        </p>
+        <nav class="toc" aria-label="Variationen">
+          <a href="#v1">01 · Signal</a>
+          <a href="#v2">02 · Papier</a>
+          <a href="#v3">03 · Aurora</a>
+          <a href="#v4">04 · Neon</a>
+          <a href="#v5">05 · Bürgergrün</a>
+          <a href="#v6">06 · Terminal</a>
+          <a href="#v7">07 · Pastell</a>
+          <a href="#v8">08 · Klartext</a>
+          <a href="#v9">09 · Redaktion</a>
+          <a href="#v10">10 · Nachtblau</a>
+        </nav>
+      </header>
+
+      <!-- ============ 01 SIGNAL ============ -->
+      <section class="variation" id="v1">
+        <div class="v-head">
+          <div class="v-num">01</div>
+          <div class="v-title">
+            <h2>Signal</h2>
+            <p>Dunkles Slate, ein einziges elektrisches Blau als Signalfarbe. Fintech-Dashboard mit großen tabellarischen Zahlen — sachlich, präzise, datenstark.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#0d1320"></span>
+              <span class="swatch" style="background:#141d2e"></span>
+              <span class="swatch" style="background:#3b82f6"></span>
+              <span class="swatch" style="background:#4ade80"></span>
+            </div>
+            <div class="fonttag">System-Sans · Mono-Zahlen</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v1">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span class="logo">BUNDES<b>MONITOR</b></span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">Bundesschulden live</div>
+                      <div class="big" style="font-size:1.72rem; margin:6px 0 2px">2.021.443.907.812&thinsp;€</div>
+                      <div style="font-size:.68rem; opacity:.85">+ 89,9 Mrd € Neuverschuldung 2026 · Quelle: BMF</div>
+                      <div style="display:flex; gap:14px; margin-top:12px; font-size:.66rem">
+                        <span>▲ 3.481 €/Sek</span><span class="pill g" style="background:#ffffff2e; color:#fff">Ist</span>
+                      </div>
+                    </div>
+                    <div class="tile t-wide">
+                      <div class="lab">Jetzt · neue Vorgänge</div>
+                      <div class="rowmini"><span class="pill">Beschlossen</span><span style="font-size:.68rem; flex:1">Digitalpakt Verwaltung II</span></div>
+                      <div class="rowmini"><span class="pill g">Geplant</span><span style="font-size:.68rem; flex:1">Novelle Wehrdienst</span></div>
+                    </div>
+                    <div class="tile">
+                      <div class="lab">Anstehend</div>
+                      <div class="big" style="font-size:1.3rem; margin-top:6px">KW 29</div>
+                      <div style="font-size:.62rem; opacity:.7">Sitzungswoche · in 4 Tagen</div>
+                    </div>
+                    <div class="tile">
+                      <div class="lab">Nächste Wahl</div>
+                      <div class="big accent" style="font-size:1.3rem; margin-top:6px">182 T</div>
+                      <div style="font-size:.62rem; opacity:.7">Landtag Sachsen-Anhalt</div>
+                    </div>
+                    <div class="tile t-wide">
+                      <div class="lab">Haushalt 2024 · Soll vs. Ist</div>
+                      <div class="bars">
+                        <div class="bar" style="height:100%; background:#3b82f6"></div>
+                        <div class="bar" style="height:88%; background:#254a80"></div>
+                        <div class="bar" style="height:76%; background:#3b82f6"></div>
+                        <div class="bar" style="height:70%; background:#254a80"></div>
+                        <div class="bar" style="height:92%; background:#3b82f6"></div>
+                        <div class="bar" style="height:80%; background:#254a80"></div>
+                      </div>
+                      <div style="font-size:.6rem; opacity:.7; margin-top:6px">476,8 Mrd Soll · 465,7 Mrd Ist</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">◉</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">◧</span>Region</div>
+                  <div class="tab"><span class="dot">◔</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „Jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v1">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span style="font-size:1.1rem">←</span><span class="logo" style="font-size:.8rem">GELD &amp; SCHULDEN</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">Neuverschuldung 2026</div>
+                      <div class="big" style="font-size:2.1rem; margin:8px 0">89,9 <span style="font-size:1rem">Mrd €</span></div>
+                      <div style="font-size:.66rem; opacity:.85">Nettokreditaufnahme · Regierungsentwurf</div>
+                    </div>
+                    <div class="tile"><div class="lab">Zinsausgaben</div><div class="big" style="font-size:1.15rem; margin-top:6px">37,2 Mrd</div></div>
+                    <div class="tile"><div class="lab">Schuldenquote</div><div class="big" style="font-size:1.15rem; margin-top:6px">62,3 %</div></div>
+                    <div class="tile t-wide">
+                      <div class="lab">Ausgaben nach Ressort</div>
+                      <div class="rowmini"><span style="font-size:.66rem; flex:1">Arbeit &amp; Soziales</span><b style="font-size:.66rem" class="accent">175,7 Mrd</b></div>
+                      <div class="rowmini"><span style="font-size:.66rem; flex:1">Verteidigung</span><b style="font-size:.66rem" class="accent">53,3 Mrd</b></div>
+                      <div class="rowmini"><span style="font-size:.66rem; flex:1">Verkehr</span><b style="font-size:.66rem" class="accent">44,1 Mrd</b></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab"><span class="dot">◉</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab on"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">◧</span>Region</div>
+                  <div class="tab"><span class="dot">◔</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Geld-Cockpit</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Eine einzige Akzentfarbe hält alles ruhig; Zahlen in Monospace wirken wie ein Terminal-Dashboard. Ideal für Menschen, die „harte Fakten auf einen Blick" wollen.</p>
+      </section>
+
+      <!-- ============ 02 PAPIER ============ -->
+      <section class="variation" id="v2">
+        <div class="v-head">
+          <div class="v-num">02</div>
+          <div class="v-title">
+            <h2>Papier</h2>
+            <p>Warmes Papierweiß, Tintenschwarz, ein kräftiges Zeitungsrot. Serifen für Inhalte, kondensierte Schrift für Labels — vertraut wie eine seriöse Tageszeitung.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#f4efe4"></span>
+              <span class="swatch" style="background:#211d18"></span>
+              <span class="swatch" style="background:#b3271b"></span>
+              <span class="swatch" style="background:#2f6b3a"></span>
+            </div>
+            <div class="fonttag">Serif · Condensed</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v2">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span class="logo">BUNDES<b>MONITOR</b></span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">Schuldenuhr des Bundes</div>
+                      <div class="big" style="font-size:1.72rem; margin:6px 0 2px">2.021.443.907.812&thinsp;€</div>
+                      <div style="font-size:.68rem; opacity:.8">+ 89,9 Mrd € geplant für 2026</div>
+                      <div style="border-top:1px solid #ffffff33; margin-top:10px; padding-top:8px; font-size:.66rem">Quelle: Bundesministerium der Finanzen</div>
+                    </div>
+                    <div class="tile t-wide">
+                      <div class="lab">Neu heute</div>
+                      <div class="rowmini"><span class="pill">Beschlossen</span><span style="font-size:.72rem; flex:1">Digitalpakt Verwaltung II</span></div>
+                      <div class="rowmini"><span class="pill g">Geplant</span><span style="font-size:.72rem; flex:1">Novelle Wehrdienstgesetz</span></div>
+                    </div>
+                    <div class="tile"><div class="lab">Sitzungswoche</div><div class="big" style="font-size:1.25rem; margin-top:6px">KW 29</div><div style="font-size:.62rem; opacity:.7">in 4 Tagen</div></div>
+                    <div class="tile"><div class="lab">Nächste Wahl</div><div class="big" style="font-size:1.25rem; margin-top:6px; color:#b3271b">182 T</div><div style="font-size:.62rem; opacity:.7">Sachsen-Anhalt</div></div>
+                    <div class="tile t-wide">
+                      <div class="lab">Sitzverteilung Bundestag · 2025</div>
+                      <div class="seatrow"><span style="flex:28.5; background:#211d18"></span><span style="flex:20.8; background:#b3271b"></span><span style="flex:16.4; background:#6b6156"></span><span style="flex:11.6; background:#2f6b3a"></span><span style="flex:10.4; background:#a99a82"></span></div>
+                      <div style="font-size:.6rem; opacity:.7; margin-top:6px">630 Sitze · Union · SPD · AfD · Grüne · übrige</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">▦</span>Region</div>
+                  <div class="tab"><span class="dot">☰</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „Jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v2">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span style="font-size:1.1rem">←</span><span class="logo" style="font-size:.8rem">JETZT · CHRONIK</span><span class="gear">⚙</span></div>
+                <div class="body" style="overflow:hidden">
+                  <div style="display:flex; gap:6px; margin-bottom:10px">
+                    <span class="pill" style="background:#211d18; color:#f4efe4">Alle Themen ▾</span>
+                    <span class="pill" style="background:#efe7d6; color:#211d18">Partei ▾</span>
+                  </div>
+                  <article class="tile" style="margin-bottom:8px">
+                    <div style="display:flex; gap:6px; margin-bottom:5px"><span class="pill">Beschlossen</span><span class="lab" style="opacity:.6">vor 2 Std</span></div>
+                    <div style="font-size:.9rem; font-weight:600; line-height:1.25">Gesetz zur Digitalisierung der Verwaltung II</div>
+                    <div style="font-size:.66rem; opacity:.7; margin-top:5px">Bundesregierung · Drucksache 20/8842</div>
+                    <div style="display:flex; gap:5px; margin-top:8px"><span class="pill g">Digitales</span><span class="pill g">Verwaltung</span></div>
+                  </article>
+                  <article class="tile" style="margin-bottom:8px">
+                    <div style="display:flex; gap:6px; margin-bottom:5px"><span class="pill g">Geplant</span><span class="lab" style="opacity:.6">gestern</span></div>
+                    <div style="font-size:.9rem; font-weight:600; line-height:1.25">Novelle des Wehrdienstgesetzes</div>
+                    <div style="font-size:.66rem; opacity:.7; margin-top:5px">BMVg · 1. Lesung geplant KW 29</div>
+                  </article>
+                  <article class="tile">
+                    <div style="display:flex; gap:6px; margin-bottom:5px"><span class="pill">Verkündet</span><span class="lab" style="opacity:.6">2 Tage</span></div>
+                    <div style="font-size:.9rem; font-weight:600; line-height:1.25">Änderung des Klimaschutzgesetzes</div>
+                    <div style="font-size:.66rem; opacity:.7; margin-top:5px">BGBl. I Nr. 214 · in Kraft ab 01.08.</div>
+                  </article>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">▦</span>Region</div>
+                  <div class="tab"><span class="dot">☰</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Chronik-Feed</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Das Zeitungsidiom signalisiert Seriosität und Quellentreue. Rot nur für Status/Akzente, sonst Schwarz auf Papier — hohe Lesbarkeit, wenig Ablenkung.</p>
+      </section>
+
+      <!-- ============ 03 AURORA ============ -->
+      <section class="variation" id="v3">
+        <div class="v-head">
+          <div class="v-num">03</div>
+          <div class="v-title">
+            <h2>Aurora</h2>
+            <p>Die verfeinerte aktuelle App: tiefes Marineblau, Teal-Akzent, ruhige matte Flächen. Mono-Zahlen, viel Luft — modern und technisch, ohne Farbverläufe.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#081019"></span>
+              <span class="swatch" style="background:#0e1b26"></span>
+              <span class="swatch" style="background:#2de2c8"></span>
+              <span class="swatch" style="background:#5fe6a8"></span>
+            </div>
+            <div class="fonttag">Sans · Mono-Marke</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v3">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span class="logo">BUNDES<b>MONITOR</b></span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">Schulden des Bundes</div>
+                      <div class="big" style="font-size:1.68rem; margin:6px 0 2px">2.021.443.907.812</div>
+                      <div style="font-size:.66rem; color:#7fa6ac">Euro · live hochgezählt · +3.481 €/Sek</div>
+                      <div class="bars">
+                        <div class="bar" style="height:40%; background:#134"></div><div class="bar" style="height:55%; background:#1c4a45"></div>
+                        <div class="bar" style="height:70%; background:#2de2c8"></div><div class="bar" style="height:60%; background:#1c4a45"></div>
+                        <div class="bar" style="height:85%; background:#2de2c8"></div><div class="bar" style="height:95%; background:#2de2c8"></div>
+                      </div>
+                    </div>
+                    <div class="tile t-wide">
+                      <div class="lab">Jetzt</div>
+                      <div class="rowmini"><span class="pill">Beschlossen</span><span style="font-size:.68rem; flex:1">Digitalpakt Verwaltung II</span><span style="opacity:.5">›</span></div>
+                      <div class="rowmini"><span class="pill g">Geplant</span><span style="font-size:.68rem; flex:1">Wehrdienst-Novelle</span><span style="opacity:.5">›</span></div>
+                    </div>
+                    <div class="tile"><div class="lab">Anstehend</div><div class="big" style="font-size:1.25rem; margin-top:6px">KW 29</div><div style="font-size:.6rem; color:#7fa6ac">in 4 Tagen</div></div>
+                    <div class="tile"><div class="lab">Wahl</div><div class="big" style="font-size:1.25rem; margin-top:6px">182&nbsp;T</div><div style="font-size:.6rem; color:#7fa6ac">Sachsen-Anhalt</div></div>
+                    <div class="tile"><div class="lab">Vorgänge</div><div class="big" style="font-size:1.25rem; margin-top:6px">441</div><div style="font-size:.6rem; color:#7fa6ac">aktiv verfolgt</div></div>
+                    <div class="tile"><div class="lab">Quellen</div><div class="big" style="font-size:1.25rem; margin-top:6px">7</div><div style="font-size:.6rem; color:#7fa6ac">amtlich · frisch</div></div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">◉</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">◧</span>Region</div>
+                  <div class="tab"><span class="dot">◔</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „Jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v3">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span style="font-size:1.1rem">←</span><span class="logo" style="font-size:.78rem">VORGANGSREISE</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="tile" style="margin-bottom:12px">
+                    <div class="lab">Gesetzgebung</div>
+                    <div style="font-size:.86rem; font-weight:600; margin:4px 0; color:#e2edf4">Gesetz zur Digitalisierung der Verwaltung II</div>
+                    <div style="font-size:.62rem; color:#7fa6ac">Drucksache 20/8842 · 6 Stationen</div>
+                  </div>
+                  <div class="journey" style="color:#2de2c8">
+                    <div class="step"><div class="st-t" style="color:#e2edf4">Gesetzentwurf eingebracht</div><div class="st-d">14.03.2026 · Bundesregierung</div></div>
+                    <div class="step"><div class="st-t" style="color:#e2edf4">1. Lesung Bundestag</div><div class="st-d">21.03.2026</div></div>
+                    <div class="step"><div class="st-t" style="color:#e2edf4">Ausschussberatung</div><div class="st-d">04.04.2026 · Innenausschuss</div></div>
+                    <div class="step"><div class="st-t" style="color:#e2edf4">2./3. Lesung · angenommen</div><div class="st-d">16.05.2026</div></div>
+                    <div class="step"><div class="st-t" style="color:#e2edf4">Bundesrat · zugestimmt</div><div class="st-d">07.06.2026</div></div>
+                    <div class="step"><div class="st-t" style="color:#e2edf4">Verkündet im BGBl.</div><div class="st-d">28.06.2026 · in Kraft 01.08.</div></div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">◉</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">◧</span>Region</div>
+                  <div class="tab"><span class="dot">◔</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Vorgangsreise</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Der ruhige dunkle Grund lässt Teal-Akzente „leuchten" ohne Verlauf. Die Vorgangsreise erzählt den Weg eines Gesetzes als klare Zeitachse — Kernversprechen der App.</p>
+      </section>
+
+      <!-- ============ 04 NEON ============ -->
+      <section class="variation" id="v4">
+        <div class="v-head">
+          <div class="v-num">04</div>
+          <div class="v-title">
+            <h2>Neon</h2>
+            <p>Fast schwarz, Limette und Magenta als flächige Blöcke, fette Grotesk in großen Graden. Poster-Ästhetik — laut, jung, sofort greifbar für Erstwähler:innen.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#0a0a0c"></span>
+              <span class="swatch" style="background:#c6ff3a"></span>
+              <span class="swatch" style="background:#ff2e93"></span>
+              <span class="swatch" style="background:#141417"></span>
+            </div>
+            <div class="fonttag">Grotesk Bold</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v4">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span class="logo">BUNDES<b>MONITOR</b></span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash">
+                    <div class="tile hero t-2x2">
+                      <div class="lab" style="font-weight:800">SCHULDEN JETZT</div>
+                      <div class="big" style="font-size:1.55rem; margin:8px 0 2px">2,02 Bio €</div>
+                      <div style="font-size:.72rem; font-weight:700">+89,9 Mrd 2026 · +3.481 €/Sek</div>
+                    </div>
+                    <div class="tile pop t-wide">
+                      <div class="lab" style="font-weight:800">FRISCH BESCHLOSSEN</div>
+                      <div class="big" style="font-size:.98rem; margin-top:6px; letter-spacing:-.01em">Digitalpakt Verwaltung II</div>
+                    </div>
+                    <div class="tile"><div class="lab">WAHL IN</div><div class="big" style="font-size:1.7rem; margin-top:4px; color:#c6ff3a">182</div><div style="font-size:.62rem; font-weight:700">TAGEN · S-ANHALT</div></div>
+                    <div class="tile"><div class="lab">SITZUNG</div><div class="big" style="font-size:1.7rem; margin-top:4px">KW29</div><div style="font-size:.62rem; font-weight:700">IN 4 TAGEN</div></div>
+                    <div class="tile t-wide">
+                      <div class="lab" style="font-weight:800">WER REGIERT?</div>
+                      <div class="seatrow" style="height:16px; margin-top:10px"><span style="flex:28.5; background:#c6ff3a"></span><span style="flex:20.8; background:#ff2e93"></span><span style="flex:16.4; background:#555"></span><span style="flex:11.6; background:#64f0c0"></span><span style="flex:10.4; background:#333"></span></div>
+                      <div style="font-size:.6rem; font-weight:700; margin-top:6px">630 SITZE IM BUNDESTAG</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">◉</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">◧</span>Region</div>
+                  <div class="tab"><span class="dot">◔</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „Jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v4">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span style="font-size:1.1rem">←</span><span class="logo" style="font-size:.8rem">ANSTEHEND</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="tile hero" style="margin-bottom:10px; text-align:center; padding:18px">
+                    <div class="lab" style="font-weight:800">NÄCHSTE WAHL IN</div>
+                    <div class="big" style="font-size:3rem; margin:6px 0; line-height:1">182</div>
+                    <div style="font-weight:800; font-size:.8rem">TAGEN</div>
+                    <div style="font-size:.66rem; font-weight:700; margin-top:6px">Landtagswahl Sachsen-Anhalt · 06.09.2026</div>
+                  </div>
+                  <div class="tile pop" style="margin-bottom:10px">
+                    <div class="lab" style="font-weight:800">SITZUNGSWOCHE</div>
+                    <div class="big" style="font-size:1.1rem; margin-top:4px; color:#fff">KW 29 · 13.–17. Juli</div>
+                  </div>
+                  <div class="tile">
+                    <div class="lab" style="font-weight:800">TAGESORDNUNG (AUSZUG)</div>
+                    <div class="rowmini"><span style="font-size:.72rem; font-weight:600; flex:1">Wehrdienst-Novelle · 1. Lesung</span></div>
+                    <div class="rowmini"><span style="font-size:.72rem; font-weight:600; flex:1">Haushalt 2027 · Einbringung</span></div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab"><span class="dot">◉</span>Jetzt</div>
+                  <div class="tab on"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">◧</span>Region</div>
+                  <div class="tab"><span class="dot">◔</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Anstehend / Countdown</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Große Zahlen und knallige Blöcke holen ein junges, politikfernes Publikum ab, ohne Fakten zu verzerren. Farbe strukturiert (Limette = Info, Magenta = neu), Neutralität bleibt gewahrt.</p>
+      </section>
+
+      <!-- ============ 05 BUERGERGRUEN ============ -->
+      <section class="variation" id="v5">
+        <div class="v-head">
+          <div class="v-num">05</div>
+          <div class="v-title">
+            <h2>Bürgergrün</h2>
+            <p>Helles Off-White, Waldgrün und warmer Sand, weiche runde Kacheln. Freundlich und zugänglich — wirkt wie eine hilfreiche Behörden-App, die man gern öffnet.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#f3f6f1"></span>
+              <span class="swatch" style="background:#1f7a54"></span>
+              <span class="swatch" style="background:#f0e6cf"></span>
+              <span class="swatch" style="background:#ffffff"></span>
+            </div>
+            <div class="fonttag">Humanist Sans · rund</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v5">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span class="logo">BUNDES<b>MONITOR</b></span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">Was der Bund gerade schuldet</div>
+                      <div class="big" style="font-size:1.6rem; margin:8px 0 2px">2,02 Billionen €</div>
+                      <div style="font-size:.68rem; opacity:.9">Das sind rund 24.100 € pro Kopf.</div>
+                      <div style="font-size:.64rem; opacity:.8; margin-top:8px">Quelle: Bundesfinanzministerium</div>
+                    </div>
+                    <div class="tile sand t-wide">
+                      <div class="lab">Neu &amp; wichtig</div>
+                      <div class="rowmini" style="border-color:#00000012"><span class="pill">Beschlossen</span><span style="font-size:.72rem; flex:1">Digitalpakt Verwaltung II</span></div>
+                      <div class="rowmini" style="border-color:#00000012"><span class="pill">Geplant</span><span style="font-size:.72rem; flex:1">Wehrdienst-Novelle</span></div>
+                    </div>
+                    <div class="tile"><div class="lab">Sitzungswoche</div><div class="big" style="font-size:1.2rem; margin-top:6px; color:#1f7a54">KW 29</div><div style="font-size:.6rem; opacity:.7">in 4 Tagen</div></div>
+                    <div class="tile"><div class="lab">Nächste Wahl</div><div class="big" style="font-size:1.2rem; margin-top:6px; color:#1f7a54">182 T</div><div style="font-size:.6rem; opacity:.7">Sachsen-Anhalt</div></div>
+                    <div class="tile t-wide">
+                      <div class="lab">Wo passiert was?</div>
+                      <div class="map">
+                        <div class="land" style="background:#1f7a54; color:#fff">BY</div><div class="land" style="background:#cfe6d4">NW</div><div class="land" style="background:#e6f0e4">BW</div><div class="land" style="background:#1f7a54; color:#fff">BE</div>
+                        <div class="land" style="background:#e6f0e4">HE</div><div class="land" style="background:#cfe6d4">SN</div><div class="land" style="background:#e6f0e4">NI</div><div class="land" style="background:#cfe6d4">ST</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">▦</span>Region</div>
+                  <div class="tab"><span class="dot">☺</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „Jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v5">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span style="font-size:1.1rem">←</span><span class="logo" style="font-size:.82rem">REGION</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="tile sand" style="margin-bottom:10px">
+                    <div class="lab">Dein Bundesland</div>
+                    <div style="font-size:.95rem; font-weight:700; margin-top:4px; color:#1f7a54">Sachsen-Anhalt</div>
+                    <div style="font-size:.64rem; opacity:.75">Bundes­themen mit regionalem Bezug</div>
+                  </div>
+                  <div class="map" style="margin-bottom:12px">
+                    <div class="land" style="background:#e6f0e4; aspect-ratio:1.4">SH</div><div class="land" style="background:#cfe6d4; aspect-ratio:1.4">HH</div><div class="land" style="background:#e6f0e4; aspect-ratio:1.4">MV</div><div class="land" style="background:#e6f0e4; aspect-ratio:1.4">BB</div>
+                    <div class="land" style="background:#cfe6d4; aspect-ratio:1.4">NI</div><div class="land" style="background:#e6f0e4; aspect-ratio:1.4">BE</div><div class="land" style="background:#1f7a54; color:#fff; aspect-ratio:1.4">ST</div><div class="land" style="background:#e6f0e4; aspect-ratio:1.4">SN</div>
+                    <div class="land" style="background:#cfe6d4; aspect-ratio:1.4">NW</div><div class="land" style="background:#e6f0e4; aspect-ratio:1.4">HE</div><div class="land" style="background:#cfe6d4; aspect-ratio:1.4">TH</div><div class="land" style="background:#e6f0e4; aspect-ratio:1.4">RP</div>
+                  </div>
+                  <div class="tile">
+                    <div class="lab">Bezug zu Sachsen-Anhalt</div>
+                    <div class="rowmini" style="border-color:#00000012"><span style="font-size:.7rem; flex:1">Strukturwandel Kohleregion Mitteldeutschland</span></div>
+                    <div class="rowmini" style="border-color:#00000012"><span style="font-size:.7rem; flex:1">Fördermittel Bund → Länder 2026</span></div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab on"><span class="dot">▦</span>Region</div>
+                  <div class="tab"><span class="dot">☺</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Region / Deutschlandkarte</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Runde Formen und warme Töne senken die Hemmschwelle. Erklärende Sätze („24.100 € pro Kopf") übersetzen abstrakte Zahlen — perfekt für nicht-interessierte Bürger:innen.</p>
+      </section>
+
+      <!-- ============ 06 TERMINAL ============ -->
+      <section class="variation" id="v6">
+        <div class="v-head">
+          <div class="v-num">06</div>
+          <div class="v-title">
+            <h2>Terminal</h2>
+            <p>Schwarz, Phosphorgrün, durchgängig Monospace. Brutalistische Boxen, maximale Datendichte — für Power-User, Journalist:innen und Nerds, die Rohdaten lieben.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#020402"></span>
+              <span class="swatch" style="background:#33ff88"></span>
+              <span class="swatch" style="background:#14401f"></span>
+              <span class="swatch" style="background:#7fffb0"></span>
+            </div>
+            <div class="fonttag">Monospace pur</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v6">
+                <div class="statusbar"><span>09:41</span><span>NET:LAN ▪▪▪</span></div>
+                <div class="appbar"><span class="logo">bundes<b>monitor</b>~$</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash" style="gap:6px">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">// debt.live</div>
+                      <div class="big" style="font-size:1.4rem; margin:6px 0">2021443907812</div>
+                      <div style="font-size:.62rem; color:#4fae6a">EUR · d/dt=+3481 · src=BMF</div>
+                      <div style="font-size:.58rem; color:#4fae6a; margin-top:8px; letter-spacing:.02em">[■■■■■■■■□□] 2026 62.3%GDP</div>
+                    </div>
+                    <div class="tile t-wide">
+                      <div class="lab">// feed --new</div>
+                      <div class="rowmini" style="border-color:#14401f"><span class="pill">DONE</span><span style="font-size:.64rem; flex:1">digitalpakt_verwaltung_II</span></div>
+                      <div class="rowmini" style="border-color:#14401f"><span class="pill g">PLAN</span><span style="font-size:.64rem; flex:1">wehrdienst_novelle</span></div>
+                    </div>
+                    <div class="tile"><div class="lab">// sitzung</div><div class="big" style="font-size:1.1rem; margin-top:4px">KW29</div><div style="font-size:.56rem; color:#4fae6a">t-4d</div></div>
+                    <div class="tile"><div class="lab">// wahl</div><div class="big" style="font-size:1.1rem; margin-top:4px">182d</div><div style="font-size:.56rem; color:#4fae6a">ST_ltw</div></div>
+                    <div class="tile t-wide">
+                      <div class="lab">// haushalt soll:ist</div>
+                      <div style="font-size:.62rem; margin-top:6px; line-height:1.7">
+                        soll = 476.8e9<br>ist&nbsp; = 465.7e9<br>diff = -11.1e9 <span class="pill g">97.7%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">◉</span>jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>next</div>
+                  <div class="tab"><span class="dot">€</span>geld</div>
+                  <div class="tab"><span class="dot">▦</span>region</div>
+                  <div class="tab"><span class="dot">☰</span>aktr</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v6">
+                <div class="statusbar"><span>09:41</span><span>NET:LAN ▪▪▪</span></div>
+                <div class="appbar"><span style="font-size:1rem">←</span><span class="logo" style="font-size:.72rem">feed --all --tags</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="tile" style="margin-bottom:6px">
+                    <div style="font-size:.6rem; color:#4fae6a">2026-06-28T14:02 | drs=20/8842</div>
+                    <div style="font-size:.72rem; margin-top:3px">gesetz_digitalisierung_verwaltung_II</div>
+                    <div style="margin-top:6px"><span class="pill">DONE</span> <span class="pill g">#digitales</span> <span class="pill g">#verwaltung</span></div>
+                  </div>
+                  <div class="tile" style="margin-bottom:6px">
+                    <div style="font-size:.6rem; color:#4fae6a">2026-06-27T09:15 | init=BMVg</div>
+                    <div style="font-size:.72rem; margin-top:3px">novelle_wehrdienstgesetz</div>
+                    <div style="margin-top:6px"><span class="pill g">PLAN</span> <span class="pill g">#verteidigung</span></div>
+                  </div>
+                  <div class="tile" style="margin-bottom:6px">
+                    <div style="font-size:.6rem; color:#4fae6a">2026-06-26T00:00 | bgbl=I/214</div>
+                    <div style="font-size:.72rem; margin-top:3px">aenderung_klimaschutzgesetz</div>
+                    <div style="margin-top:6px"><span class="pill">PROMULG</span> <span class="pill g">#klima</span></div>
+                  </div>
+                  <div style="font-size:.6rem; color:#4fae6a; text-align:center; margin-top:8px">-- load_more() --</div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">◉</span>jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>next</div>
+                  <div class="tab"><span class="dot">€</span>geld</div>
+                  <div class="tab"><span class="dot">▦</span>region</div>
+                  <div class="tab"><span class="dot">☰</span>aktr</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Feed --all</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Maximale Informationsdichte ohne Deko. Zeitstempel, Drucksachen-IDs und Tags stehen im Vordergrund — spricht die Kern-Zielgruppe an, die Quellen selbst prüfen will.</p>
+      </section>
+
+      <!-- ============ 07 PASTELL ============ -->
+      <section class="variation" id="v7">
+        <div class="v-head">
+          <div class="v-num">07</div>
+          <div class="v-title">
+            <h2>Pastell</h2>
+            <p>Helle Lavendel-, Mint- und Pfirsichkacheln auf fast weißem Grund, sanfte Rundungen. Verspielt und leicht — nahbar wie eine moderne Consumer-App.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#ded4ff"></span>
+              <span class="swatch" style="background:#d2f5e8"></span>
+              <span class="swatch" style="background:#ffe4d6"></span>
+              <span class="swatch" style="background:#7c5cff"></span>
+            </div>
+            <div class="fonttag">Rounded Sans</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v7">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span class="logo">BUNDES<b>MONITOR</b></span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">Schuldenuhr</div>
+                      <div class="big" style="font-size:1.55rem; margin:8px 0 2px">2,02 Bio €</div>
+                      <div style="font-size:.66rem; opacity:.75">+89,9 Mrd geplant 2026</div>
+                      <div style="display:flex; gap:6px; margin-top:10px"><span class="pill">live</span><span class="pill g">+3.481 €/Sek</span></div>
+                    </div>
+                    <div class="tile mint"><div class="lab">Sitzung</div><div class="big" style="font-size:1.3rem; margin-top:6px; color:#1f9d76">KW 29</div><div style="font-size:.6rem; opacity:.7">in 4 Tagen</div></div>
+                    <div class="tile peach"><div class="lab">Wahl</div><div class="big" style="font-size:1.3rem; margin-top:6px; color:#d97b4a">182 T</div><div style="font-size:.6rem; opacity:.7">S-Anhalt</div></div>
+                    <div class="tile t-wide">
+                      <div class="lab">Neu im Feed</div>
+                      <div class="rowmini" style="border-color:#00000010"><span class="pill">Beschlossen</span><span style="font-size:.72rem; flex:1">Digitalpakt Verwaltung II</span></div>
+                      <div class="rowmini" style="border-color:#00000010"><span class="pill g">Geplant</span><span style="font-size:.72rem; flex:1">Wehrdienst-Novelle</span></div>
+                    </div>
+                    <div class="tile mint"><div class="lab">Vorgänge</div><div class="big" style="font-size:1.3rem; margin-top:6px; color:#1f9d76">441</div></div>
+                    <div class="tile peach"><div class="lab">Quellen</div><div class="big" style="font-size:1.3rem; margin-top:6px; color:#d97b4a">7</div></div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">▦</span>Region</div>
+                  <div class="tab"><span class="dot">☺</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „Jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v7">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span style="font-size:1.1rem">←</span><span class="logo" style="font-size:.82rem">AKTEURE</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="tile hero" style="margin-bottom:10px">
+                    <div class="lab">Bundestag · Wahl 2025</div>
+                    <div class="seatrow" style="height:14px; margin-top:8px"><span style="flex:28.5; background:#7c5cff"></span><span style="flex:20.8; background:#ff8fb0"></span><span style="flex:16.4; background:#9aa0b0"></span><span style="flex:11.6; background:#57c9a0"></span><span style="flex:10.4; background:#c9b8ff"></span></div>
+                    <div style="font-size:.6rem; opacity:.75; margin-top:6px">630 Sitze insgesamt</div>
+                  </div>
+                  <div class="tile mint" style="margin-bottom:8px"><div style="display:flex; align-items:center"><span style="font-size:.78rem; font-weight:600; flex:1">Union</span><b style="font-size:.78rem; color:#1f9d76">208</b></div></div>
+                  <div class="tile peach" style="margin-bottom:8px"><div style="display:flex; align-items:center"><span style="font-size:.78rem; font-weight:600; flex:1">SPD</span><b style="font-size:.78rem; color:#d97b4a">120</b></div></div>
+                  <div class="tile" style="margin-bottom:8px"><div style="display:flex; align-items:center"><span style="font-size:.78rem; font-weight:600; flex:1">AfD</span><b style="font-size:.78rem; color:#7c5cff">97</b></div></div>
+                  <div class="tile"><div style="display:flex; align-items:center"><span style="font-size:.78rem; font-weight:600; flex:1">Grüne</span><b style="font-size:.78rem; color:#1f9d76">85</b></div></div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">▦</span>Region</div>
+                  <div class="tab on"><span class="dot">☺</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Akteure / Sitzverteilung</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Sanfte Farbcodes machen Kategorien intuitiv unterscheidbar, ohne parteipolitisch zu färben (neutrale Pastelltöne statt Parteifarben). Wirkt leicht und einladend.</p>
+      </section>
+
+      <!-- ============ 08 KLARTEXT ============ -->
+      <section class="variation" id="v8">
+        <div class="v-head">
+          <div class="v-num">08</div>
+          <div class="v-title">
+            <h2>Klartext</h2>
+            <p>Weiß, maximaler Kontrast, kräftiges Blau, dicke schwarze Rahmen und große Schrift. Barrierefreiheit zuerst — riesige Tap-Ziele, klare Fokusringe, WCAG&nbsp;2.2&nbsp;AA+.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#ffffff"></span>
+              <span class="swatch" style="background:#111111"></span>
+              <span class="swatch" style="background:#0043ce"></span>
+              <span class="swatch" style="background:#005d2e"></span>
+            </div>
+            <div class="fonttag">Große Sans · fett</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v8">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span class="logo">BUNDES<b>MONITOR</b></span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash" style="gap:11px">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">Schulden des Bundes</div>
+                      <div class="big" style="font-size:1.5rem; margin:8px 0 4px">2,02 Bio €</div>
+                      <div style="font-size:.72rem">+ 89,9 Mrd € im Jahr 2026</div>
+                    </div>
+                    <div class="tile t-wide">
+                      <div class="lab">Neu beschlossen</div>
+                      <div style="font-size:.86rem; font-weight:800; margin-top:6px; line-height:1.2">Digitalpakt Verwaltung II</div>
+                      <div style="margin-top:8px"><span class="pill">Beschlossen</span></div>
+                    </div>
+                    <div class="tile"><div class="lab">Sitzung</div><div class="big" style="font-size:1.4rem; margin-top:6px">KW 29</div></div>
+                    <div class="tile"><div class="lab">Wahl in</div><div class="big" style="font-size:1.4rem; margin-top:6px; color:#0043ce">182 T</div></div>
+                    <div class="tile t-wide">
+                      <div class="lab">Haushalt: geplant vs. tatsächlich</div>
+                      <div class="bars" style="height:40px"><div class="bar" style="height:100%; background:#0043ce"></div><div class="bar" style="height:97%; background:#111"></div></div>
+                      <div style="font-size:.66rem; font-weight:700; margin-top:6px">Soll 476,8 · Ist 465,7 Mrd €</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Termine</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">▦</span>Region</div>
+                  <div class="tab"><span class="dot">☰</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „Jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v8">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span style="font-size:1.2rem; font-weight:800">←</span><span class="logo" style="font-size:.82rem">JETZT</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="tile" style="margin-bottom:11px; border-width:2px; outline:3px solid #0043ce; outline-offset:2px">
+                    <div style="display:flex; gap:6px; align-items:center; margin-bottom:6px"><span class="pill">Beschlossen</span><span class="lab">vor 2 Std</span></div>
+                    <div style="font-size:.98rem; font-weight:800; line-height:1.25">Gesetz zur Digitalisierung der Verwaltung II</div>
+                    <div style="font-size:.72rem; margin-top:6px; color:#444">Bundesregierung · Drucksache 20/8842</div>
+                    <div style="margin-top:8px; font-size:.72rem; font-weight:700; color:#0043ce">Zur Originalquelle →</div>
+                  </div>
+                  <div class="tile" style="margin-bottom:11px; border-width:2px">
+                    <div style="display:flex; gap:6px; align-items:center; margin-bottom:6px"><span class="pill g">Geplant</span><span class="lab">gestern</span></div>
+                    <div style="font-size:.98rem; font-weight:800; line-height:1.25">Novelle des Wehrdienstgesetzes</div>
+                    <div style="font-size:.72rem; margin-top:6px; color:#444">1. Lesung geplant KW 29</div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Termine</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">▦</span>Region</div>
+                  <div class="tab"><span class="dot">☰</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Feed mit Fokus-Ring</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Höchster Kontrast, große Schrift und klare Fokusringe erfüllen und übertreffen WCAG 2.2 AA. Diese Richtung kann als „Barrierearm"-Modus sogar mit jeder anderen kombiniert werden.</p>
+      </section>
+
+      <!-- ============ 09 REDAKTION ============ -->
+      <section class="variation" id="v9">
+        <div class="v-head">
+          <div class="v-num">09</div>
+          <div class="v-title">
+            <h2>Redaktion</h2>
+            <p>Helles Magazin-Layout, Indigo-Duoton, kondensierte Versal-Headlines über Serifen-Text. Starkes typografisches Raster — wirkt wie ein digitales Politikmagazin.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#f7f7f5"></span>
+              <span class="swatch" style="background:#16161a"></span>
+              <span class="swatch" style="background:#3a2eea"></span>
+              <span class="swatch" style="background:#eae8ff"></span>
+            </div>
+            <div class="fonttag">Condensed + Serif</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v9">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span class="logo">BUNDES<b>MONITOR</b></span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">Titelthema · Staatsfinanzen</div>
+                      <div class="big" style="font-size:2rem; margin:6px 0 2px; line-height:.95">2,02<br>BILLIONEN €</div>
+                      <div style="font-size:.7rem; opacity:.85; font-family:var(--serif)">Schuldenstand des Bundes. 2026 kommen 89,9 Mrd € hinzu.</div>
+                    </div>
+                    <div class="tile t-wide">
+                      <div class="lab">Aktuell</div>
+                      <div class="rowmini" style="border-color:#00000010"><span class="pill">Beschlossen</span><span style="font-size:.82rem; flex:1; font-weight:600">Digitalpakt Verwaltung II</span></div>
+                      <div class="rowmini" style="border-color:#00000010"><span class="pill g">Geplant</span><span style="font-size:.82rem; flex:1; font-weight:600">Wehrdienst-Novelle</span></div>
+                    </div>
+                    <div class="tile"><div class="lab">Im Plenum</div><div class="big" style="font-size:1.5rem; margin-top:4px">KW29</div></div>
+                    <div class="tile"><div class="lab">Urnengang</div><div class="big" style="font-size:1.5rem; margin-top:4px; color:#3a2eea">182T</div></div>
+                    <div class="tile t-wide">
+                      <div class="lab">Kräfteverhältnis · Bundestag</div>
+                      <div class="seatrow" style="height:13px; margin-top:8px"><span style="flex:28.5; background:#16161a"></span><span style="flex:20.8; background:#3a2eea"></span><span style="flex:16.4; background:#8a86b8"></span><span style="flex:11.6; background:#6b66d6"></span><span style="flex:10.4; background:#c7c4ea"></span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">▦</span>Region</div>
+                  <div class="tab"><span class="dot">☰</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „Jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v9">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span style="font-size:1.1rem">←</span><span class="logo" style="font-size:.78rem">VORGANG</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div style="margin-bottom:10px">
+                    <div class="pill" style="margin-bottom:6px">Gesetzgebung · Digitales</div>
+                    <div style="font-family:var(--cond); font-weight:700; font-size:1.25rem; line-height:1.05; text-transform:uppercase">Digitalisierung der Verwaltung II</div>
+                    <div style="font-size:.74rem; opacity:.7; margin-top:6px; font-family:var(--serif)">Drucksache 20/8842 · eingebracht von der Bundesregierung</div>
+                  </div>
+                  <div class="tile" style="margin-bottom:10px">
+                    <div class="lab">Status</div>
+                    <div style="font-family:var(--cond); font-size:1.1rem; font-weight:700; color:#3a2eea; margin-top:2px">VERKÜNDET · IN KRAFT 01.08.2026</div>
+                  </div>
+                  <div class="journey" style="color:#3a2eea">
+                    <div class="step"><div class="st-t">Eingebracht</div><div class="st-d">14.03.2026</div></div>
+                    <div class="step"><div class="st-t">1. Lesung</div><div class="st-d">21.03.2026</div></div>
+                    <div class="step"><div class="st-t">Ausschuss</div><div class="st-d">04.04.2026</div></div>
+                    <div class="step"><div class="st-t">Angenommen</div><div class="st-d">16.05.2026</div></div>
+                    <div class="step"><div class="st-t">Verkündet</div><div class="st-d">28.06.2026 · BGBl. I</div></div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">●</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">▦</span>Region</div>
+                  <div class="tab"><span class="dot">☰</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Vorgangsdetail</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Die Magazin-Hierarchie führt das Auge — Titelthema groß, Details klein. Serifen für Fließtext erhöhen die Lesbarkeit langer Beschreibungen im Detail.</p>
+      </section>
+
+      <!-- ============ 10 NACHTBLAU ============ -->
+      <section class="variation" id="v10">
+        <div class="v-head">
+          <div class="v-num">10</div>
+          <div class="v-title">
+            <h2>Nachtblau</h2>
+            <p>Tiefes Nachtblau mit warmem Bernstein-Akzent, gedämpft und ruhig. Der „ruhige Feed" — abendtauglich, augenschonend, sachlich, mit Mono-Zahlen.</p>
+          </div>
+          <div class="v-meta">
+            <div class="swatches">
+              <span class="swatch" style="background:#0c1424"></span>
+              <span class="swatch" style="background:#111d33"></span>
+              <span class="swatch" style="background:#ffb84d"></span>
+              <span class="swatch" style="background:#57d99a"></span>
+            </div>
+            <div class="fonttag">Sans · Mono-Zahlen</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v10">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span class="logo">BUNDES<b>MONITOR</b></span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="dash">
+                    <div class="tile hero t-2x2">
+                      <div class="lab">Schuldenuhr des Bundes</div>
+                      <div class="big" style="font-size:1.62rem; margin:8px 0 2px">2.021.443.907.812</div>
+                      <div style="font-size:.66rem; color:#8fa2c4">Euro · +3.481 €/Sek · Quelle: BMF</div>
+                      <div style="display:flex; gap:8px; margin-top:12px"><span class="pill">2026: +89,9 Mrd</span><span class="pill g">62,3 % BIP</span></div>
+                    </div>
+                    <div class="tile t-wide">
+                      <div class="lab">Jetzt</div>
+                      <div class="rowmini" style="border-color:#ffffff10"><span class="pill">Beschlossen</span><span style="font-size:.7rem; flex:1">Digitalpakt Verwaltung II</span></div>
+                      <div class="rowmini" style="border-color:#ffffff10"><span class="pill g">Geplant</span><span style="font-size:.7rem; flex:1">Wehrdienst-Novelle</span></div>
+                    </div>
+                    <div class="tile"><div class="lab">Sitzung</div><div class="big" style="font-size:1.25rem; margin-top:6px">KW 29</div><div style="font-size:.6rem; color:#8fa2c4">in 4 Tagen</div></div>
+                    <div class="tile"><div class="lab">Wahl</div><div class="big" style="font-size:1.25rem; margin-top:6px">182&nbsp;T</div><div style="font-size:.6rem; color:#8fa2c4">S-Anhalt</div></div>
+                    <div class="tile t-wide">
+                      <div class="lab">Haushalt 2024 · Soll / Ist</div>
+                      <div class="bars"><div class="bar" style="height:100%; background:#ffb84d"></div><div class="bar" style="height:97%; background:#33507f"></div><div class="bar" style="height:80%; background:#ffb84d"></div><div class="bar" style="height:74%; background:#33507f"></div></div>
+                      <div style="font-size:.6rem; color:#8fa2c4; margin-top:6px">476,8 Soll · 465,7 Ist Mrd €</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab on"><span class="dot">◉</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">◧</span>Region</div>
+                  <div class="tab"><span class="dot">◔</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Dashboard „Jetzt"</span>
+          </div>
+
+          <div class="phone-col">
+            <div class="phone"><div class="glass"><span class="notch"></span>
+              <div class="app v10">
+                <div class="statusbar"><span>9:41</span><span>▪ ▪ ▪ ▪</span></div>
+                <div class="appbar"><span style="font-size:1.1rem">←</span><span class="logo" style="font-size:.76rem">KONTROLLE · PLAN/IST</span><span class="gear">⚙</span></div>
+                <div class="body">
+                  <div class="tile" style="margin-bottom:10px">
+                    <div class="lab">Bundeshaushalt 2024</div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px">
+                      <div><div style="font-size:.6rem; color:#8fa2c4">SOLL</div><div class="big" style="font-size:1.15rem">476,8</div></div>
+                      <div><div style="font-size:.6rem; color:#8fa2c4">IST</div><div class="big" style="font-size:1.15rem; color:#57d99a">465,7</div></div>
+                      <div><div style="font-size:.6rem; color:#8fa2c4">QUOTE</div><div class="big" style="font-size:1.15rem">97,7%</div></div>
+                    </div>
+                  </div>
+                  <div class="tile" style="margin-bottom:8px">
+                    <div class="lab">Verteidigung</div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-top:6px"><div style="flex:1; height:8px; border-radius:4px; background:#1e2f4d; overflow:hidden"><div style="width:92%; height:100%; background:#ffb84d"></div></div><b style="font-size:.66rem">92 %</b></div>
+                  </div>
+                  <div class="tile" style="margin-bottom:8px">
+                    <div class="lab">Verkehr &amp; Digitales</div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-top:6px"><div style="flex:1; height:8px; border-radius:4px; background:#1e2f4d; overflow:hidden"><div style="width:78%; height:100%; background:#ffb84d"></div></div><b style="font-size:.66rem">78 %</b></div>
+                  </div>
+                  <div class="tile">
+                    <div class="lab">Bildung &amp; Forschung</div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-top:6px"><div style="flex:1; height:8px; border-radius:4px; background:#1e2f4d; overflow:hidden"><div style="width:85%; height:100%; background:#57d99a"></div></div><b style="font-size:.66rem">85 %</b></div>
+                  </div>
+                </div>
+                <div class="tabbar">
+                  <div class="tab"><span class="dot">◉</span>Jetzt</div>
+                  <div class="tab"><span class="dot">◷</span>Anstehend</div>
+                  <div class="tab on"><span class="dot">€</span>Geld</div>
+                  <div class="tab"><span class="dot">◧</span>Region</div>
+                  <div class="tab"><span class="dot">◔</span>Akteure</div>
+                </div>
+              </div>
+            </div></div>
+            <span class="screen-label">Kontrolle Plan vs. Ist</span>
+          </div>
+        </div>
+        <p class="caption"><b>Warum es funktioniert:</b> Gedämpftes Blau schont die Augen, ein einziger warmer Akzent lenkt gezielt. Der Plan/Ist-Screen macht das Kernprinzip „geplant ≠ ausgezahlt" sichtbar — ohne Wertung.</p>
+      </section>
+
+      <footer class="foot">
+        Bundesmonitor · Design-Studie mit 10 vollständigen App-Richtungen. Alle Screens zeigen dieselbe Informationsarchitektur
+        (Jetzt · Anstehend · Geld · Region · Akteure) in je einem eigenständigen, in sich einheitlichen Designsystem.
+        Zahlen und Vorgänge sind Demo-Beispiele; in der App stammt jede Angabe aus einer amtlichen Primärquelle. Keine Farbverläufe, neutrale Farbcodierung.
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,616 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   Design-System. Neutral und barrierefrei (WCAG 2.2 AA), mit dezentem
+   Cyberpunk-Akzent im Dunkelmodus (Neon-Teal, subtile Glows). Farben sind
+   kategorisch, nicht wertend. Keine Hoheitszeichen, keine Partei-/Ministeriums-
+   farben.
+   ========================================================================= */
+
+:root {
+  /* Hell (modern, ruhig) */
+  --bm-bg: #f3f5f9;
+  --bm-bg-grid: rgba(37, 99, 235, 0.05);
+  --bm-surface: #ffffff;
+  --bm-surface-2: #eef2f8;
+  --bm-border: #dae0ea;
+  --bm-border-strong: #bfc9d8;
+  --bm-text: #0d1420;
+  --bm-text-muted: #52627a;
+  --bm-accent: #2563eb;
+  --bm-accent-contrast: #ffffff;
+  --bm-accent-2: #6366f1;
+  --bm-glow: none;
+
+  --bm-status-healthy: #15803d;
+  --bm-status-degraded: #a2560a;
+  --bm-status-down: #be123c;
+  --bm-status-unknown: #52627a;
+
+  --bm-radius: 14px;
+  --bm-mono: ui-monospace, "Cascadia Code", "JetBrains Mono", "Fira Code", Menlo,
+    Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bm-bg: #0a0f19;
+    --bm-bg-grid: rgba(59, 130, 246, 0.05);
+    --bm-surface: #121b2b;
+    --bm-surface-2: #16202f;
+    --bm-border: #223247;
+    --bm-border-strong: #33465f;
+    --bm-text: #eaf0f8;
+    --bm-text-muted: #94a3b8;
+    --bm-accent: #3b82f6;
+    --bm-accent-contrast: #ffffff;
+    --bm-accent-2: #818cf8;
+    --bm-glow: 0 0 18px -6px rgba(59, 130, 246, 0.55);
+
+    --bm-status-healthy: #4ade80;
+    --bm-status-degraded: #fbbf24;
+    --bm-status-down: #fb7185;
+    --bm-status-unknown: #94a3b8;
+  }
+}
+
+:root[data-theme="light"] {
+  --bm-bg: #f4f6f9;
+  --bm-bg-grid: rgba(14, 143, 126, 0.05);
+  --bm-surface: #ffffff;
+  --bm-surface-2: #f0f3f7;
+  --bm-border: #dbe2ea;
+  --bm-border-strong: #c4cfdb;
+  --bm-text: #0f1720;
+  --bm-text-muted: #566675;
+  --bm-accent: #0a7c6c;
+  --bm-accent-contrast: #ffffff;
+  --bm-accent-2: #6d4bd6;
+  --bm-glow: none;
+  --bm-status-healthy: #0b7a4e;
+  --bm-status-degraded: #855a08;
+  --bm-status-down: #b4243a;
+  --bm-status-unknown: #566675;
+}
+
+:root[data-theme="dark"] {
+  --bm-bg: #0a0f19;
+  --bm-bg-grid: rgba(59, 130, 246, 0.05);
+  --bm-surface: #121b2b;
+  --bm-surface-2: #16202f;
+  --bm-border: #223247;
+  --bm-border-strong: #33465f;
+  --bm-text: #eaf0f8;
+  --bm-text-muted: #94a3b8;
+  --bm-accent: #3b82f6;
+  --bm-accent-contrast: #ffffff;
+  --bm-accent-2: #818cf8;
+  --bm-glow: 0 0 18px -6px rgba(59, 130, 246, 0.55);
+  --bm-status-healthy: #4ade80;
+  --bm-status-degraded: #fbbf24;
+  --bm-status-down: #fb7185;
+  --bm-status-unknown: #94a3b8;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+/* -------- Barrierefreiheit: Textgroesse (skaliert alle rem-Werte) -------- */
+:root[data-fontscale="gross"] {
+  font-size: 112.5%;
+}
+:root[data-fontscale="sehrgross"] {
+  font-size: 125%;
+}
+
+/* -------- Barrierefreiheit: Farbenblind-freundliche Palette --------
+   Okabe-Ito-Farben: Blau/Orange/Vermillion sind fuer die haeufigsten
+   Farbsehschwaechen (Rot-Gruen) sicher unterscheidbar. Werte tragen
+   zusaetzlich immer Textlabels – Farbe ist nie der einzige Traeger. */
+:root[data-cvd="1"] {
+  --bm-status-healthy: #e69f00;
+  --bm-status-degraded: #56b4e9;
+  --bm-status-down: #d55e00;
+  --bm-accent-2: #009e73;
+}
+
+/* Kein horizontales Scrollen; lange Woerter/Kennungen brechen um statt zu ueberlaufen. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  background-color: var(--bm-bg);
+  /* Sehr dezentes technisches Raster als Cyberpunk-Anmutung. */
+  background-image:
+    linear-gradient(var(--bm-bg-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bm-bg-grid) 1px, transparent 1px);
+  background-size: 44px 44px;
+  color: var(--bm-text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--bm-accent);
+  color: var(--bm-accent-contrast);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--bm-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* -------- Bausteine -------- */
+
+.bm-card {
+  position: relative;
+  background: var(--bm-surface);
+  border: 1px solid var(--bm-border);
+  border-radius: var(--bm-radius);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+.bm-card--hover:hover {
+  border-color: var(--bm-border-strong);
+  box-shadow: var(--bm-glow);
+}
+/* Linker Akzentbalken (Cyberpunk-Anmutung) */
+.bm-accentbar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--bm-accent);
+  opacity: 0.8;
+}
+
+.bm-mono {
+  font-family: var(--bm-mono);
+  font-variant-ligatures: none;
+}
+
+.bm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--bm-border);
+  background: var(--bm-surface-2);
+  color: var(--bm-text-muted);
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.bm-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid color-mix(in srgb, var(--pill) 45%, transparent);
+  color: var(--pill);
+  background: color-mix(in srgb, var(--pill) 12%, transparent);
+}
+
+.bm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--bm-border-strong);
+  background: var(--bm-surface);
+  color: var(--bm-text);
+  padding: 0.4rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+.bm-btn:hover:not(:disabled) {
+  border-color: var(--bm-accent);
+  box-shadow: var(--bm-glow);
+}
+.bm-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.bm-btn--primary {
+  border-color: var(--bm-accent);
+  color: var(--bm-accent);
+  background: color-mix(in srgb, var(--bm-accent) 10%, transparent);
+}
+.bm-btn--active {
+  border-color: var(--bm-accent);
+  color: var(--bm-accent);
+  background: color-mix(in srgb, var(--bm-accent) 14%, transparent);
+  box-shadow: var(--bm-glow);
+}
+
+.bm-input {
+  width: 100%;
+  border: 1px solid var(--bm-border-strong);
+  background: var(--bm-surface);
+  color: var(--bm-text);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+}
+.bm-input:focus {
+  outline: none;
+  border-color: var(--bm-accent);
+  box-shadow: var(--bm-glow);
+}
+.bm-input--auto {
+  width: auto;
+}
+
+/* -------- Einstellungen: ruhige, gruppierte Formularbausteine --------
+   Jede Gruppe ist eine Karte; darin Zeilen mit Label links, Steuerung
+   rechts (auf schmalen Displays bricht die Steuerung unter das Label). */
+.bm-group {
+  padding: 0.3rem 1.15rem 0.65rem;
+}
+.bm-group__title {
+  padding: 0.9rem 0 0.55rem;
+}
+.bm-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem 1.25rem;
+  padding: 0.9rem 0;
+}
+.bm-field + .bm-field {
+  border-top: 1px solid var(--bm-border);
+}
+.bm-field--stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+.bm-field__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1 1 12rem;
+}
+.bm-field__label {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.bm-field__hint {
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--bm-text-muted);
+}
+.bm-field__control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 0 1 auto;
+}
+.bm-field--stack .bm-field__control {
+  align-items: stretch;
+  gap: 0.65rem;
+}
+
+/* Segmented Control (Theme, Textgröße): zusammenhängend statt lose Buttons. */
+.bm-seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--bm-surface-2);
+  border: 1px solid var(--bm-border);
+}
+.bm-seg > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--bm-text-muted);
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.bm-seg > button:hover {
+  color: var(--bm-text);
+}
+.bm-seg > button[aria-pressed="true"] {
+  background: var(--bm-surface);
+  color: var(--bm-accent);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+/* Toggle-Schalter (An/Aus) statt Text-Buttons. */
+.bm-switch {
+  position: relative;
+  width: 46px;
+  height: 27px;
+  flex: none;
+  border-radius: 999px;
+  border: 1px solid var(--bm-border-strong);
+  background: var(--bm-surface-2);
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+.bm-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--bm-text-muted);
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+.bm-switch[aria-checked="true"] {
+  background: color-mix(in srgb, var(--bm-accent) 26%, transparent);
+  border-color: var(--bm-accent);
+}
+.bm-switch[aria-checked="true"]::after {
+  transform: translateX(19px);
+  background: var(--bm-accent);
+}
+
+/* Klickbare Info-Zeile (Status/Über/Rechtliches). */
+.bm-linkrow {
+  text-decoration: none;
+}
+.bm-linkrow:hover .bm-field__label {
+  color: var(--bm-accent);
+}
+
+.bm-link {
+  color: var(--bm-accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--bm-accent) 40%, transparent);
+}
+.bm-link:hover {
+  border-bottom-color: var(--bm-accent);
+}
+
+/* Cyberpunk-Titel: leichter Neon-Schimmer nur im Dunkelmodus */
+:root[data-theme="dark"] .bm-glow-text,
+.bm-glow-text {
+  text-shadow: none;
+}
+@media (prefers-color-scheme: dark) {
+  .bm-glow-text {
+    text-shadow: 0 0 22px rgba(59, 130, 246, 0.28);
+  }
+}
+:root[data-theme="dark"] .bm-glow-text {
+  text-shadow: 0 0 22px rgba(59, 130, 246, 0.28);
+}
+:root[data-theme="light"] .bm-glow-text {
+  text-shadow: none;
+}
+
+/* Dezente Scrollbar im Dunkelmodus */
+@media (prefers-color-scheme: dark) {
+  * {
+    scrollbar-color: var(--bm-border-strong) transparent;
+  }
+}
+
+/* -------- Einheitliche Typo-Scale (kompakt) -------- */
+/* Seitentitel: bewusst klein und praezise statt plakativ. */
+.bm-h1 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+.bm-sub {
+  font-size: 0.75rem;
+  color: var(--bm-text-muted);
+}
+/* Abschnittskopf im Signal-Stil (wie Kachel-Labels). */
+.bm-sect {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bm-text-muted);
+}
+
+/* -------- Dezente Animationen (reduced-motion wird global respektiert) -------- */
+@keyframes bm-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+.bm-grow {
+  transform-origin: left;
+  /* Balken "laedt" beim Betreten der Seite langsam von links nach rechts auf. */
+  animation: bm-grow 1.3s cubic-bezier(0.16, 0.8, 0.3, 1) both;
+  will-change: transform;
+}
+[dir="rtl"] .bm-grow {
+  transform-origin: right;
+}
+@keyframes bm-fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.bm-fadeup {
+  animation: bm-fadeup 0.35s ease-out both;
+}
+
+/* -------- Seitenuebergang: sanfte Einblendung bei jeder Navigation -------- */
+@keyframes bm-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.bm-page {
+  animation: bm-page-in 0.3s cubic-bezier(0.22, 0.9, 0.36, 1) both;
+}
+
+/* -------- Signal-Dashboard: verschieden grosse Kacheln --------
+   Fliessendes Raster: passt sich jeder Breite an (Foldable zu, Portrait,
+   Landscape, Tablet). Portrait-Phone = 2 Spalten, breite/Landscape-Geraete
+   bekommen mehr Spalten – ohne Ueberlauf. min(150px,100%) verhindert, dass
+   eine Spalte breiter als der Bildschirm wird. */
+.bm-tilegrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
+  gap: 0.6rem;
+}
+/* Sehr schmal (Foldable geschlossen): eine Spalte, Hero volle Breite. */
+@media (max-width: 344px) {
+  .bm-tilegrid {
+    grid-template-columns: 1fr;
+  }
+  .bm-tile--span2 {
+    grid-column: auto !important;
+  }
+}
+.bm-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.3rem;
+  background: var(--bm-surface);
+  border: 1px solid var(--bm-border);
+  border-radius: 12px;
+  padding: 0.85rem 0.9rem;
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+/* Einzelne Kacheln koennen linksbuendig bleiben (z. B. mehrspaltige Inhalte). */
+.bm-tile--left {
+  align-items: stretch;
+  text-align: left;
+}
+a.bm-tile:hover {
+  border-color: var(--bm-accent);
+  box-shadow: var(--bm-glow);
+}
+.bm-tile--span2 {
+  grid-column: span 2;
+}
+.bm-tile--hero {
+  background: var(--bm-accent);
+  border-color: var(--bm-accent);
+  color: var(--bm-accent-contrast);
+}
+.bm-tile__lab {
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+.bm-tile__big {
+  font-family: var(--bm-mono);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+.bm-tile__meta {
+  font-size: 0.68rem;
+  opacity: 0.72;
+}
+/* Auf der farbigen Hero-Kachel muss der Kleintext lesbar bleiben (WCAG AA). */
+.bm-tile--hero .bm-tile__lab,
+.bm-tile--hero .bm-tile__meta {
+  opacity: 0.92;
+}
+.bm-minibars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 34px;
+  margin-top: 0.4rem;
+}
+.bm-minibars > span {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+}
+
+/* Deutschland-Pixelkarte: Hover/Fokus hebt das ganze Land hervor. */
+.bm-land:hover rect,
+.bm-land:focus-visible rect {
+  stroke: var(--bm-accent);
+  stroke-width: 0.9;
+}
+.bm-land:focus-visible {
+  outline: none;
+}
+
+@keyframes bm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.bm-spin {
+  animation: bm-spin 0.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* -------- Akkordeon (Mitmachen-Kategorien) -------- */
+.bm-acc > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.bm-acc > summary::-webkit-details-marker {
+  display: none;
+}
+.bm-acc .bm-chev {
+  transition: transform 0.2s ease;
+}
+.bm-acc[open] .bm-chev {
+  transform: rotate(180deg);
+}

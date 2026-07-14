@@ -1,0 +1,11 @@
+{
+  "name": "Bundesmonitor Claude Code Startpaket",
+  "created": "2026-07-12",
+  "working_title": "Bundesmonitor",
+  "file_count": 26,
+  "start_files": [
+    "README_START_HERE.md",
+    "CLAUDE.md",
+    "prompts/00_master_prompt.md"
+  ]
+}
