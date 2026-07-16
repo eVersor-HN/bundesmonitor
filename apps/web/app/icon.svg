@@ -1,21 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 1024 1024" role="img" aria-label="Bundesmonitor">
-  <defs>
-    <radialGradient id="bg" cx="50%" cy="40%" r="72%">
-      <stop offset="0" stop-color="#17263f"/>
-      <stop offset="1" stop-color="#0a1019"/>
-    </radialGradient>
-  </defs>
-  <rect width="1024" height="1024" rx="184" fill="url(#bg)"/>
+  <rect width="1024" height="1024" rx="180" fill="#0d1320"/>
+  
   <!-- Glow-Unterlage -->
-  <circle cx="512" cy="512" r="288" fill="none" stroke="#3b82f6" stroke-opacity="0.15" stroke-width="58" stroke-linecap="round"/>
-  <!-- Visier: Fadenkreuz-Ring + Himmelsrichtungs-Ticks + M -->
-  <g fill="none" stroke="#3b82f6" stroke-width="36" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="512" cy="512" r="288"/>
-    <line x1="512" y1="316" x2="512" y2="224"/>
-    <line x1="512" y1="708" x2="512" y2="800"/>
-    <line x1="316" y1="512" x2="224" y2="512"/>
-    <line x1="708" y1="512" x2="800" y2="512"/>
-    <path d="M398 606 V432 L512 524 L626 432 V606"/>
+  <circle cx="512" cy="512" r="300" fill="none" stroke="#57a9ef" stroke-opacity="0.15" stroke-width="70"/>
+  <path d="M274.5,524.5 H399.5 L449.5,399.5 L524.5,637 L574.5,524.5 H749.5" fill="none" stroke="#57a9ef" stroke-opacity="0.15" stroke-width="70" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Chromatic-Ghost (Magenta), leicht versetzt: translate(1 -0.6)*25 = (25 -15) -->
+  <g transform="translate(25 -15)" opacity="0.4" fill="none" stroke="#ff3d9a" stroke-width="37" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="512" cy="512" r="300"/>
+    <path d="M274.5,524.5 H399.5 L449.5,399.5 L524.5,637 L574.5,524.5 H749.5"/>
   </g>
-  <circle cx="512" cy="524" r="15" fill="#3b82f6"/>
+  <!-- Front (Akzent): Scope-Ring + Live-Puls -->
+  <g fill="none" stroke="#57a9ef" stroke-width="46" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="512" cy="512" r="300"/>
+    <path d="M274.5,524.5 H399.5 L449.5,399.5 L524.5,637 L574.5,524.5 H749.5"/>
+  </g>
+  <!-- Live-Node am Ende der Kurve -->
+  <circle cx="749.5" cy="524.5" r="38" fill="#57a9ef"/>
 </svg>

@@ -1,16 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 1024 1024" role="img" aria-label="Bundesmonitor">
   <rect width="1024" height="1024" rx="180" fill="#0d1320"/>
   
-  <!-- Glow-Unterlagen -->
-  <circle cx="512" cy="512" r="292" fill="none" stroke="#3b82f6" stroke-opacity="0.16" stroke-width="54"/>
-  <polyline points="252,640 336,640 420,384 512,556 604,384 688,640 772,640" fill="none" stroke="#3b82f6" stroke-opacity="0.18" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Radar-Ring (solide Farbe) -->
-  <circle cx="512" cy="512" r="292" fill="none" stroke="#3b82f6" stroke-width="24"/>
-  <!-- Sweep-Bogen (Radar) -->
-  <path d="M512,266 A246,246 0 0 1 758,512" fill="none" stroke="#818cf8" stroke-width="16" stroke-linecap="round" stroke-opacity="0.9"/>
-  <!-- Puls (M-Form) -->
-  <polyline points="252,640 336,640 420,384 512,556 604,384 688,640 772,640" fill="none" stroke="#3b82f6" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Knoten am Puls-Ausschlag -->
-  <circle cx="420" cy="384" r="22" fill="#3b82f6"/>
-  <circle cx="420" cy="384" r="38" fill="none" stroke="#3b82f6" stroke-opacity="0.4" stroke-width="7"/>
+  <!-- Glow-Unterlage -->
+  <circle cx="512" cy="512" r="300" fill="none" stroke="#57a9ef" stroke-opacity="0.15" stroke-width="70"/>
+  <path d="M274.5,524.5 H399.5 L449.5,399.5 L524.5,637 L574.5,524.5 H749.5" fill="none" stroke="#57a9ef" stroke-opacity="0.15" stroke-width="70" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Chromatic-Ghost (Magenta), leicht versetzt: translate(1 -0.6)*25 = (25 -15) -->
+  <g transform="translate(25 -15)" opacity="0.4" fill="none" stroke="#ff3d9a" stroke-width="37" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="512" cy="512" r="300"/>
+    <path d="M274.5,524.5 H399.5 L449.5,399.5 L524.5,637 L574.5,524.5 H749.5"/>
+  </g>
+  <!-- Front (Akzent): Scope-Ring + Live-Puls -->
+  <g fill="none" stroke="#57a9ef" stroke-width="46" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="512" cy="512" r="300"/>
+    <path d="M274.5,524.5 H399.5 L449.5,399.5 L524.5,637 L574.5,524.5 H749.5"/>
+  </g>
+  <!-- Live-Node am Ende der Kurve -->
+  <circle cx="749.5" cy="524.5" r="38" fill="#57a9ef"/>
 </svg>
