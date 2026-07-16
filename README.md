@@ -6,7 +6,7 @@ Bundesmonitor macht in Sekunden sichtbar, *was die Regierung tut, wofür Geld au
 
 > Zielbild: **Was ist neu? Wer ist verantwortlich? Welchen Status hat es? Geht es um Geld? Was passiert als Nächstes? Wo ist die Originalquelle?** – beantwortet auf einen Blick.
 
-> 💸 Diese App zeigt dir bis auf den Cent, wo Milliarden versickern – und finanziert sich aus exakt null davon. Zwei Klicks, und du bist raus aus dieser peinlichen Bilanz.
+> 💸 Alles hier ist umsonst – aber nicht kostenlos. Die Differenz trägt bisher allein der Entwickler; für einen Kaffeepreis lässt du ihn nicht länger stellvertretend für dich blechen.
 > **PayPal:** [paypal.me/FAMarco](https://paypal.me/FAMarco)
 > **Bitcoin:** `bc1qv92c3eyeqvhgfnez7spfd7v2aytkhpshsl65yv`
 
@@ -32,14 +32,14 @@ Eine neuere Version einfach über die installierte drüberinstallieren – Updat
 
 ## ✅ Echtheit prüfen (SHA-256)
 
-Vor der Installation den Fingerabdruck der geladenen Datei prüfen. Für **v0.4.1** (`bundesmonitor-0.4.1.apk`):
+Vor der Installation den Fingerabdruck der geladenen Datei prüfen. Für **v0.4.2** (`bundesmonitor-0.4.2.apk`):
 
 ```
-a7039f2311f271ab4210f513ee1be1792af5236873a0f68271a9d6042647320f
+4a7133664b0e5a27421d8fe564580f0de031c35473629480bda984390f6234de
 ```
 
 ```powershell
-Get-FileHash .\bundesmonitor-0.4.1.apk -Algorithm SHA256
+Get-FileHash .\bundesmonitor-0.4.2.apk -Algorithm SHA256
 ```
 
 Der ausgegebene Hash muss (Groß-/Kleinschreibung egal) exakt übereinstimmen. Tut er das **nicht**, die Datei nicht installieren – es ist kein echter Build. Maßgeblich sind die **Release-Notes** und [`SHA256SUMS.txt`](SHA256SUMS.txt).
