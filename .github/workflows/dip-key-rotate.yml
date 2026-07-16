@@ -1,0 +1,39 @@
+name: DIP-Schlüssel prüfen & rotieren
+
+# Prüft regelmäßig, ob der öffentliche DIP-Sammelschlüssel im Gist noch gültig
+# ist, und aktualisiert ihn automatisch von der DIP-Hilfeseite, falls er rotiert
+# wurde. So müssen installierte Apps nie neu ausgerollt werden.
+#
+# EINMALIGE EINRICHTUNG:
+#   1. Personal Access Token (classic) mit Scope "gist" erstellen:
+#      https://github.com/settings/tokens
+#   2. Als Repository-Secret hinterlegen (Settings > Secrets and variables >
+#      Actions), Name: GIST_TOKEN
+#   3. Bei Bedarf GIST_ID unten anpassen.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # montags 06:00 UTC
+  workflow_dispatch: {} # manuell auslösbar
+
+permissions:
+  contents: read
+
+jobs:
+  rotate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Playwright (Chromium) installieren
+        run: npm i -D playwright && npx playwright install --with-deps chromium
+      - name: Schlüssel prüfen & ggf. Gist aktualisieren
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: 6c22721add6106ec69d572f9d33e68a7
+          GIST_FILE: bundesmonitor-dip-key.json
+          DIP_BASE: https://search.dip.bundestag.de/api/v1
+          DIP_HELP: https://dip.bundestag.de/%C3%BCber-dip/hilfe/api
+        run: node scripts/dip-key-rotate.mjs

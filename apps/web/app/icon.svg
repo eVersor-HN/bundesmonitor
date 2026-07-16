@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 1024 1024" role="img" aria-label="Bundesmonitor">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="72%">
+      <stop offset="0" stop-color="#17263f"/>
+      <stop offset="1" stop-color="#0a1019"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="184" fill="url(#bg)"/>
+  <!-- Glow-Unterlage -->
+  <circle cx="512" cy="512" r="288" fill="none" stroke="#3b82f6" stroke-opacity="0.15" stroke-width="58" stroke-linecap="round"/>
+  <!-- Visier: Fadenkreuz-Ring + Himmelsrichtungs-Ticks + M -->
+  <g fill="none" stroke="#3b82f6" stroke-width="36" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="512" cy="512" r="288"/>
+    <line x1="512" y1="316" x2="512" y2="224"/>
+    <line x1="512" y1="708" x2="512" y2="800"/>
+    <line x1="316" y1="512" x2="224" y2="512"/>
+    <line x1="708" y1="512" x2="800" y2="512"/>
+    <path d="M398 606 V432 L512 524 L626 432 V606"/>
+  </g>
+  <circle cx="512" cy="524" r="15" fill="#3b82f6"/>
+</svg>

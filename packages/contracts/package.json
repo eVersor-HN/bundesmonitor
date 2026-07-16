@@ -1,0 +1,9 @@
+{
+  "name": "@bundesmonitor/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Aus dem OpenAPI-Schema generierte TypeScript-Typen (Platzhalter bis Phase 1).",
+  "type": "module",
+  "main": "index.ts",
+  "types": "index.ts"
+}

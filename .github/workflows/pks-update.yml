@@ -1,0 +1,44 @@
+name: PKS-Kriminalitätsdaten aktualisieren
+
+# Holt einmal jährlich (nach Veröffentlichung der PKS, i. d. R. im April) die
+# amtlichen BKA-Grundtabellen mit einem echten Browser, parst sie und schreibt
+# eine stats.json in den Gist. Die App lädt sie live (wie den DIP-Schlüssel);
+# eingebaute Werte in statistik.ts dienen als Fallback.
+#
+# EINRICHTUNG: Repo-Secret GIST_TOKEN (PAT mit gist-Scope) – dasselbe wie bei der
+# DIP-Schlüssel-Rotation. GIST_ID unten ggf. anpassen (derselbe Gist).
+#
+# SICHERHEIT: Das GIST_TOKEN sollte ein Fine-grained/Classic-PAT sein, der NUR
+# auf genau diesen einen dedizierten Gist beschränkt ist (minimaler gist-Scope),
+# damit ein Leak nicht andere Gists oder das Konto gefährdet.
+
+on:
+  schedule:
+    - cron: "0 6 20 4 *" # 20. April, 06:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Abhängigkeiten (Playwright + xlsx)
+        # xlsx (SheetJS) wird bewusst NICHT aus der npm-Registry installiert: dort
+        # ist die Version bei 0.18.5 eingefroren (CVE-2023-30533 Prototype Pollution,
+        # CVE-2024-22363 ReDoS). Die gepatchten Builds gibt es nur über die offizielle
+        # SheetJS-CDN. Version fest gepinnt für reproduzierbare, überprüfbare Builds.
+        run: |
+          npm i -D playwright@1.49.1 https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
+          npx playwright install --with-deps chromium
+      - name: PKS holen, parsen, Gist aktualisieren
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: 6c22721add6106ec69d572f9d33e68a7
+          GIST_FILE: bundesmonitor-stats.json
+        run: node scripts/pks-update.mjs

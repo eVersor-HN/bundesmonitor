@@ -1,0 +1,201 @@
+version: 1
+verified_at: '2026-07-12'
+defaults:
+  timeout_seconds: 30
+  user_agent: 'Bundesmonitor/0.1 (+https://example.invalid/contact)'
+  retry:
+    max_attempts: 4
+    backoff_seconds: 2
+  raw_archive: true
+
+sources:
+  - key: dip
+    name: DIP Bundestag/Bundesrat
+    priority: A
+    type: api
+    base_url: https://search.dip.bundestag.de/api/v1
+    documentation_url: https://dip.bundestag.de/%C3%BCber-dip/hilfe/api
+    auth_env: DIP_API_KEY
+    poll_seconds: 900
+    overlap_seconds: 1800
+    max_concurrency: 10
+    enabled_phase: 1
+    notes: API kann laut Dokumentation etwa 15 Minuten hinter der internen Änderung liegen.
+
+  - key: bundesregierung_compact
+    name: Bundesregierung kompakt
+    priority: A
+    type: rss
+    url: https://www.bundesregierung.de/service/rss/breg-de/1151242/feed.xml
+    poll_seconds: 300
+    enabled_phase: 2
+
+  - key: bundesregierung_press
+    name: Bundesregierung Pressemitteilungen
+    priority: A
+    type: rss
+    url: https://www.bundesregierung.de/service/rss/breg-de/1151244/feed.xml
+    poll_seconds: 300
+    enabled_phase: 2
+
+  - key: bundesregierung_bulletin
+    name: Bundesregierung Bulletin
+    priority: B
+    type: rss
+    url: https://www.bundesregierung.de/service/rss/breg-de/2318648/feed.xml
+    poll_seconds: 900
+    enabled_phase: 2
+
+  - key: government_press_conferences
+    name: Regierungspressekonferenzen
+    priority: A
+    type: html
+    url: https://www.bundesregierung.de/breg-de/aktuelles/pressekonferenzen
+    poll_seconds: 900
+    enabled_phase: 2
+
+  - key: bpk_schedule
+    name: Bundespressekonferenz Termine
+    priority: B
+    type: html
+    url: https://www.bundespressekonferenz.de/pressekonferenzen/termine
+    poll_seconds: 600
+    enabled_phase: 2
+    notes: Journalistenverein; Terminstatus und Zugangsregeln beachten.
+
+  - key: bundesrat_rss_index
+    name: Bundesrat RSS
+    priority: A
+    type: rss_index
+    url: https://www.bundesrat.de/DE/service-navi/rss/rss-node.html
+    poll_seconds: 300
+    enabled_phase: 2
+
+  - key: bundesrat_agenda
+    name: Bundesrat Tagesordnungen
+    priority: A
+    type: html
+    url: https://www.bundesrat.de/DE/plenum/to-plenum/to-plenum-node.html
+    poll_seconds: 900
+    enabled_phase: 2
+    notes: Nachträge bis Sitzungsbeginn möglich.
+
+  - key: bgbl_1
+    name: Bundesgesetzblatt Teil I
+    priority: A
+    type: rss
+    url: https://www.recht.bund.de/rss/feeds/rss_bgbl-1.xml
+    poll_seconds: 300
+    enabled_phase: 2
+
+  - key: bundestag_committee_agendas
+    name: Bundestag Ausschuss-Tagesordnungen
+    priority: B
+    type: rss
+    url: https://www.bundestag.de/static/appdata/includes/rss/tagesordnungen.rss
+    poll_seconds: 600
+    enabled_phase: 2
+
+  - key: bundestag_plenary_minutes
+    name: Bundestag Plenarprotokolle
+    priority: B
+    type: rss
+    url: https://www.bundestag.de/static/appdata/includes/rss/plenarprotokolle.rss
+    poll_seconds: 900
+    enabled_phase: 2
+
+  - key: bundestag_named_votes
+    name: Bundestag namentliche Abstimmungen
+    priority: A
+    type: html_file_index
+    url: https://www.bundestag.de/parlament/plenum/abstimmung/liste
+    poll_seconds: 900
+    enabled_phase: 3
+
+  - key: federal_elections
+    name: Bundeswahlleiterin Wahltermine
+    priority: A
+    type: html
+    url: https://www.bundeswahlleiterin.de/service/wahltermine.html
+    poll_seconds: 86400
+    enabled_phase: 3
+
+  - key: petitions
+    name: Bundestag Petitionen
+    priority: C
+    type: html
+    url: https://epetitionen.bundestag.de/epet/petuebersicht/mz.nc.html
+    poll_seconds: 3600
+    enabled_phase: 3
+    notes: Keine stabile offizielle API voraussetzen.
+
+  - key: federal_budget
+    name: Bundeshaushalt Download-Portal
+    priority: A
+    type: file_index
+    url: https://www.bundeshaushalt.de/DE/Download-Portal/download-portal.html
+    poll_seconds: 86400
+    enabled_phase: 4
+
+  - key: funding_catalog
+    name: Förderkatalog des Bundes
+    priority: B
+    type: html_export
+    url: https://foerderportal.bund.de/foekat/jsp/StartAction.do
+    poll_seconds: 86400
+    enabled_phase: 4
+    limitations:
+      - unvollständig
+      - fruehestens_60_tage_nach_bewilligung
+
+  - key: bmz_iati
+    name: BMZ IATI
+    priority: A
+    type: iati
+    url: https://www.bmz.de/de/ministerium/zahlen-fakten/bmz-transparenzportal
+    poll_seconds: 86400
+    enabled_phase: 4
+
+  - key: service_bund_procurement
+    name: service.bund.de Ausschreibungen
+    priority: B
+    type: rss_index
+    url: https://www.service.bund.de/Content/DE/Service/RSS/rss_node.html
+    poll_seconds: 900
+    enabled_phase: 4
+
+  - key: lobbyregister
+    name: Lobbyregister API V2
+    priority: A
+    type: api
+    url: https://api.lobbyregister.bundestag.de/
+    documentation_url: https://www.lobbyregister.bundestag.de/informationen-und-hilfe/open-data-1049716
+    auth_env: LOBBYREGISTER_API_KEY
+    poll_seconds: 3600
+    enabled_phase: 5
+
+  - key: federal_audit_office
+    name: Bundesrechnungshof Veröffentlichungen
+    priority: B
+    type: html
+    url: https://www.bundesrechnungshof.de/DE/2_veroeffentlichungen/veroeffentlichungen_node.html
+    poll_seconds: 3600
+    enabled_phase: 5
+
+  - key: federal_gazette
+    name: Bundesanzeiger Amtlicher Teil
+    priority: B
+    type: html
+    url: https://www.bundesanzeiger.de/pub/de/suche-amtlicher-teil
+    poll_seconds: 3600
+    enabled_phase: 5
+    requires_legal_review: true
+
+  - key: govdata
+    name: GovData CKAN
+    priority: C
+    type: api
+    url: https://www.govdata.de/ckan/api
+    poll_seconds: 86400
+    enabled_phase: 5
+    notes: Katalogquelle; Primaerquelle der jeweiligen Distribution bevorzugen.
